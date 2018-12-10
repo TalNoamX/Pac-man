@@ -8,8 +8,8 @@ public class Packman implements PackmanFruit {
 	private double speed;
 	private double radius;
 	private int ID;
-	
-	public Packman(String id, String sp ,String rad , String lat ,String lon , String alt) {
+
+	public Packman(String id, String lat ,String lon , String alt, String sp ,String rad) {
 		point = new Point3D(lat,lon,alt);
 		this.setID(id);
 		this.setRadius(rad);
@@ -44,5 +44,8 @@ public class Packman implements PackmanFruit {
 	private void setID(String id) {
 		ID = Integer.parseInt(id);
 	}
-	
+	public String toString() {
+		return "Packman info - "+"Point: "+this.getGeom()+" ID:"+this.getID()+" Speed:"+this.getSpeed()+" Radius:"+this.getRadius();
+	}
+
 }

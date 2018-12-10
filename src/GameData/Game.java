@@ -2,6 +2,7 @@ package GameData;
 
 import java.util.ArrayList;
 
-public class Game {
-	private ArrayList<PackmanFruit> List;
+public class Game extends ArrayList<PackmanFruit>{
+
+
 }

@@ -8,4 +8,5 @@ public interface PackmanFruit {
 	public  Geom_element getGeom();
 	public int getID();
 	public void translate(Point3D vec);
+	public String toString();
 }
