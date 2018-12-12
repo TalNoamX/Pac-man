@@ -3,7 +3,7 @@ package GameData;
 import Geom.Geom_element;
 import Geom.Point3D;
 
-public class Packman {
+public class Pacman {
 	private timeData time;
 	private Point3D point;
 	private double speed;
@@ -11,7 +11,7 @@ public class Packman {
 	private int ID;
 	private int score;
 
-	public Packman(String id, String lat ,String lon , String alt, String sp ,String rad) {
+	public Pacman(String id, String lat ,String lon , String alt, String sp ,String rad) {
 		time = new timeData();
 		point = new Point3D(lat,lon,alt);
 		this.setID(id);
@@ -58,7 +58,7 @@ public class Packman {
 	}
 
 	public String toString() {
-		return "Packman info [ "+"Point: "+this.getGeom()+" ID:"+this.getID()+" Speed:"+this.getSpeed()+" Radius:"+this.getRadius()+"]";
+		return "Pacman info [ "+"Point: "+this.getGeom()+" ID:"+this.getID()+" Speed:"+this.getSpeed()+" Radius:"+this.getRadius()+"]";
 	}
 	public int getScore() {
 		return score;

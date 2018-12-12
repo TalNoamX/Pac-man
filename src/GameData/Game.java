@@ -11,17 +11,17 @@ import Geom.Point3D;
 
 public class Game {
 
-	private ArrayList<Packman> pList;
+	private ArrayList<Pacman> pList;
 	private ArrayList<Fruit> fList;
 	private int pacmanNum;
 	private int fruitNum;
 
 	public Game() {
-		pList = new ArrayList<Packman>();
+		pList = new ArrayList<Pacman>();
 		fList = new ArrayList<Fruit>();
 
 	}
-	public ArrayList<Packman> pList() {
+	public ArrayList<Pacman> pList() {
 		return pList;
 	}
 	public ArrayList<Fruit> fList() {
@@ -32,9 +32,9 @@ public class Game {
 	*THIS SECTION IS NOT CLEAR YET! DO NOT TOUCH IT (TAL'S WORK)
 	*maybe we will need add and remove function and maybe we will use the original ArrayList add and remove.
 	
-		public boolean addPackman(Packman p) {
+		public boolean addPacman(Pacman p) {
 			if (pList.add(p)==true) {
-				packmanNum++;
+				pacmanNum++;
 				return true;
 			}
 			else return false;
@@ -56,7 +56,7 @@ public class Game {
 		}
 	************************************************************************************* */
 	public Game(String name) {
-		pList = new ArrayList<Packman>();
+		pList = new ArrayList<Pacman>();
 		fList = new ArrayList<Fruit>();
 		String csvFile = name;
 		String line = "";
@@ -67,13 +67,13 @@ public class Game {
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(",");
 				if(row==1) {
-					this.setPackmanNum(Integer.parseInt(data[7]));
+					this.setPacmanNum(Integer.parseInt(data[7]));
 					this.setFruitNum(Integer.parseInt(data[8]));
 				}
 				else {
 					type = data[0];
 					if(type.equals("P")) {
-						this.pList.add(new Packman (data[1],data[2],data[3],data[4],data[5],data[6]));
+						this.pList.add(new Pacman (data[1],data[2],data[3],data[4],data[5],data[6]));
 					}
 					else if (type.equals("F")) {
 						this.fList.add(new Fruit(data[1],data[2],data[3],data[4],data[5]));
@@ -102,7 +102,7 @@ public class Game {
 		sb0.append("Type, id, Lat, Lon, Alt, speed\\weight, Radius,"+ pList.size()+","+fList.size()+"\n");
 		pw.write(sb0.toString());
 		StringBuilder sb1 = new StringBuilder();
-		for(Packman p: pList) {
+		for(Pacman p: pList) {
 			sb1.append("P,"+p.getID()+","+((Point3D) p.getGeom()).x()+","+((Point3D) p.getGeom()).y()+","+((Point3D) p.getGeom()).z()+","+p.getSpeed()+","+p.getRadius()+"\n");
 		}
 		pw.write(sb1.toString());
@@ -114,7 +114,7 @@ public class Game {
 		pw.close();//closing the file
 	}
 
-	public void setPackmanNum(int pacmanNum) {
+	public void setPacmanNum(int pacmanNum) {
 		this.pacmanNum = pacmanNum;
 	}
 
@@ -122,7 +122,7 @@ public class Game {
 		this.fruitNum = fruitNum;
 	}
 
-	public int getPackmenNum() {
+	public int getPacmenNum() {
 		return this.pacmanNum;
 	}
 
