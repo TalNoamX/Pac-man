@@ -60,5 +60,7 @@ public class Packman {
 	public String toString() {
 		return "Packman info [ "+"Point: "+this.getGeom()+" ID:"+this.getID()+" Speed:"+this.getSpeed()+" Radius:"+this.getRadius()+"]";
 	}
-
+	public int getScore() {
+		return score;
+	}
 }
