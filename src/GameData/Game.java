@@ -1,18 +1,20 @@
 package GameData;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import Geom.Point3D;
 
 public class Game {
 
-	
 	private ArrayList<Packman> pList;
 	private ArrayList<Fruit> fList;
-	private int packmanNum;
+	private int pacmanNum;
 	private int fruitNum;
-
 
 	public Game() {
 		pList = new ArrayList<Packman>();
@@ -84,12 +86,36 @@ public class Game {
 			e.printStackTrace();
 		}
 	}
-	public void gameToCsv(String name) { //needs to be written!!!@@@@@@@@@ 
 
+	public void gameToCsv(String name) { 
+		String fileName = name+".csv";
+		PrintWriter pw = null;
+		try 
+		{
+			pw = new PrintWriter(new File(fileName));
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
+		StringBuilder sb0 = new StringBuilder();
+		sb0.append("Type, id, Lat, Lon, Alt, speed\\weight, Radius,"+ pList.size()+","+fList.size()+"\n");
+		pw.write(sb0.toString());
+		StringBuilder sb1 = new StringBuilder();
+		for(Packman p: pList) {
+			sb1.append("P,"+p.getID()+","+((Point3D) p.getGeom()).x()+","+((Point3D) p.getGeom()).y()+","+((Point3D) p.getGeom()).z()+","+p.getSpeed()+","+p.getRadius()+"\n");
+		}
+		pw.write(sb1.toString());
+		StringBuilder sb2 = new StringBuilder();
+		for(Fruit f:fList) {
+			sb2.append("P,"+f.getID()+","+((Point3D) f.getGeom()).x()+","+((Point3D) f.getGeom()).y()+","+((Point3D) f.getGeom()).z()+","+f.getWeight()+","+"\n");
+		}
+		pw.write(sb2.toString());
+		pw.close();//closing the file
 	}
 
-	public void setPackmanNum(int packmanNum) {
-		this.packmanNum = packmanNum;
+	public void setPackmanNum(int pacmanNum) {
+		this.pacmanNum = pacmanNum;
 	}
 
 	public void setFruitNum(int fruitNum) {
@@ -97,7 +123,7 @@ public class Game {
 	}
 
 	public int getPackmenNum() {
-		return this.packmanNum;
+		return this.pacmanNum;
 	}
 
 	public int getFruitNum() {
