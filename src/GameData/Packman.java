@@ -9,6 +9,7 @@ public class Packman {
 	private double speed;
 	private double radius;
 	private int ID;
+	private int score;
 
 	public Packman(String id, String lat ,String lon , String alt, String sp ,String rad) {
 		time = new timeData();
@@ -16,6 +17,10 @@ public class Packman {
 		this.setID(id);
 		this.setRadius(rad);
 		this.setSpeed(sp);
+		score = 0;
+	}
+	public void addScore(int n) {
+		score += n;
 	}
 	public String GetTime() {
 		return time.getTime();
