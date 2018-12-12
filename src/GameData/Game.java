@@ -6,32 +6,52 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Game {
-	
+
 	private ArrayList<Packman> pList;
 	private ArrayList<Fruit> fList;
 	private int packmanNum;
 	private int fruitNum;
-	
-	
+
+
 	public Game() {
 		pList = new ArrayList<Packman>();
 		fList = new ArrayList<Fruit>();
-		
+
 	}
+	public ArrayList<Packman> pList() {
+		return pList;
+	}
+	public ArrayList<Fruit> fList() {
+		return fList;
+	}
+/*
+	***********************OPTIONAL***********************************************
+	*THIS SECTION IS NOT CLEAR YET! DO NOT TOUCH IT (TAL'S WORK)
+	*maybe we will need add and remove function and maybe we will use the original ArrayList add and remove.
 	
-	public boolean addPackman(Packman p) {
-		if (pList.add(p)==true) {
-			packmanNum++;
-			return true;
+		public boolean addPackman(Packman p) {
+			if (pList.add(p)==true) {
+				packmanNum++;
+				return true;
+			}
+			else return false;
 		}
-		else return false;
-	}
-	
-	public boolean addFruit(Fruit f) {
-		fruitNum++;
-		return fList.add(f);
-	}
-	
+		
+		public boolean addFruit(Fruit f) {
+			if (fList.add(f)==true) {
+				fruitNum++;
+				return true;
+			}
+			else return false;
+		}
+		public boolean removeFruit(Fruit f) {
+			if (fList.remove(f)==true) {
+				fruitNum--;
+				return true;
+			}
+			else return false;
+		}
+	************************************************************************************* */
 	public Game(String name) {
 		pList = new ArrayList<Packman>();
 		fList = new ArrayList<Fruit>();
@@ -63,10 +83,10 @@ public class Game {
 			e.printStackTrace();
 		}
 	}
-	public void gameToCsv(String name) {
-		
+	public void gameToCsv(String name) { //needs to be written!!!@@@@@@@@@ 
+
 	}
-	
+
 	public void setPackmanNum(int packmanNum) {
 		this.packmanNum = packmanNum;
 	}
@@ -78,7 +98,7 @@ public class Game {
 	public int getPackmenNum() {
 		return this.packmanNum;
 	}
-	
+
 	public int getFruitNum() {
 		return this.fruitNum;
 	}
