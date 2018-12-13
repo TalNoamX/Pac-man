@@ -4,30 +4,21 @@ import java.awt.Graphics;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
-import java.awt.Point;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
-
-
-
 import Geom.Point3D;
-
-
 
 public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	public BufferedImage myImage;
@@ -50,21 +41,21 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		menu.add(item2);
 		menuBar.add(menu);
 		this.setMenuBar(menuBar);
+		
 
 		try {
 			myImage = ImageIO.read(new File("Ariel1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+this.setSize(myImage.getWidth(), myImage.getHeight());
 	}
-
 	int x = -1;
 	int y = -1;
 
 	public void paint(Graphics g)
 	{
-		g.drawImage(myImage, 0, 0, this);
+		g.drawImage(myImage, 0,0, this.getWidth(),this.getHeight(),this);
 		Iterator<Point3D> it=coords.iterator();
 		while(it.hasNext()) {
 			Point3D temp=it.next();
@@ -136,7 +127,5 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		// TODO Auto-generated method stub
 
 	}
-	
 
 }
-
