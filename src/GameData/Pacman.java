@@ -19,7 +19,7 @@ public class Pacman {
 		this.setSpeed(sp);
 		score = 0;
 	}
-	public void addScore(int n) {
+	public void addScore(double n) {
 		score += n;
 	}
 	public String GetTime() {
@@ -56,11 +56,13 @@ public class Pacman {
 	public void translate(Point3D vec) {
 		// TODO check how to convert pixel to coords.
 	}
+	
+	public int getScore() {
+		return score;
+	}
 
 	public String toString() {
 		return "Pacman info [ "+"Point: "+this.getGeom()+" ID:"+this.getID()+" Speed:"+this.getSpeed()+" Radius:"+this.getRadius()+"]";
 	}
-	public int getScore() {
-		return score;
-	}
+
 }

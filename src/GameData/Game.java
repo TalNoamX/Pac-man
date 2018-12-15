@@ -13,8 +13,6 @@ public class Game {
 
 	private ArrayList<Pacman> pList;
 	private ArrayList<Fruit> fList;
-	private int pacmanNum;
-	private int fruitNum;
 
 	public Game() {
 		pList = new ArrayList<Pacman>();
@@ -66,11 +64,7 @@ public class Game {
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(",");
-				if(row==1) {
-					this.setPacmanNum(Integer.parseInt(data[7]));
-					this.setFruitNum(Integer.parseInt(data[8]));
-				}
-				else {
+				if(row>1) {
 					type = data[0];
 					if(type.equals("P")) {
 						this.pList.add(new Pacman (data[1],data[2],data[3],data[4],data[5],data[6]));
@@ -87,7 +81,7 @@ public class Game {
 		}
 	}
 
-	public void gameToCsv(String name) { 
+	public void GameToCsv(String name) { 
 		String fileName = name+".csv";
 		PrintWriter pw = null;
 		try 
@@ -114,19 +108,4 @@ public class Game {
 		pw.close();//closing the file
 	}
 
-	public void setPacmanNum(int pacmanNum) {
-		this.pacmanNum = pacmanNum;
-	}
-
-	public void setFruitNum(int fruitNum) {
-		this.fruitNum = fruitNum;
-	}
-
-	public int getPacmenNum() {
-		return this.pacmanNum;
-	}
-
-	public int getFruitNum() {
-		return this.fruitNum;
-	}
 }
