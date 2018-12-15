@@ -97,12 +97,12 @@ public class Game {
 		pw.write(sb0.toString());
 		StringBuilder sb1 = new StringBuilder();
 		for(Pacman p: pList) {
-			sb1.append("P,"+p.getID()+","+((Point3D) p.getGeom()).x()+","+((Point3D) p.getGeom()).y()+","+((Point3D) p.getGeom()).z()+","+p.getSpeed()+","+p.getRadius()+"\n");
+			sb1.append("P,"+p.getID()+","+((Point3D) p.getPoint()).x()+","+((Point3D) p.getPoint()).y()+","+((Point3D) p.getPoint()).z()+","+p.getSpeed()+","+p.getRadius()+"\n");
 		}
 		pw.write(sb1.toString());
 		StringBuilder sb2 = new StringBuilder();
 		for(Fruit f:fList) {
-			sb2.append("P,"+f.getID()+","+((Point3D) f.getGeom()).x()+","+((Point3D) f.getGeom()).y()+","+((Point3D) f.getGeom()).z()+","+f.getWeight()+","+"\n");
+			sb2.append("P,"+f.getID()+","+((Point3D) f.getPoint()).x()+","+((Point3D) f.getPoint()).y()+","+((Point3D) f.getPoint()).z()+","+f.getWeight()+","+"\n");
 		}
 		pw.write(sb2.toString());
 		pw.close();//closing the file

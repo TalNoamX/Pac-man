@@ -1,6 +1,5 @@
 package GameData;
 
-import Geom.Geom_element;
 import Geom.Point3D;
 /**
  * A class that represents the fruit on the map for tha packman to eat.
@@ -34,7 +33,7 @@ public class Fruit {
 		return time.getTime();
 	}
 
-	public Geom_element getGeom() {
+	public Point3D getPoint() {
 		return point;
 	}
 
@@ -59,7 +58,7 @@ public class Fruit {
 	}
 
 	public String toString() {
-		return "Fruit info [ "+"Point: "+this.getGeom()+" ID:"+this.getID()+" Weight:"+this.getWeight()+"]";
+		return "Fruit info [ "+"Point: "+this.getPoint()+" ID:"+this.getID()+" Weight:"+this.getWeight()+"]";
 	}
 
 }

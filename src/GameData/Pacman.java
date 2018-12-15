@@ -1,6 +1,5 @@
 package GameData;
 
-import Geom.Geom_element;
 import Geom.Point3D;
 
 public class Pacman {
@@ -26,7 +25,7 @@ public class Pacman {
 		return time.getTime();
 	}
 
-	public Geom_element getGeom() {
+	public Point3D getPoint() {
 		return point;
 	}
 
@@ -62,7 +61,7 @@ public class Pacman {
 	}
 
 	public String toString() {
-		return "Pacman info [ "+"Point: "+this.getGeom()+" ID:"+this.getID()+" Speed:"+this.getSpeed()+" Radius:"+this.getRadius()+"]";
+		return "Pacman info [ "+"Point: "+this.getPoint()+" ID:"+this.getID()+" Speed:"+this.getSpeed()+" Radius:"+this.getRadius()+"]";
 	}
 
 }
