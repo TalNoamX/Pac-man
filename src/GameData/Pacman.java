@@ -1,8 +1,10 @@
 package GameData;
 
+import Algorithms.Path;
 import Geom.Point3D;
 
 public class Pacman {
+	private Path shortPath;
 	private timeData time;
 	private Point3D point;
 	private double speed;
@@ -51,10 +53,15 @@ public class Pacman {
 	private void setID(String id) {
 		ID = Integer.parseInt(id);
 	}
-
-	public void translate(Point3D vec) {
-		// TODO check how to convert pixel to coords.
+	
+	public Path getPath() {
+		return shortPath;
 	}
+	
+	public void setPath(Path p) {
+		shortPath = new Path(p);
+	}
+
 	
 	public int getScore() {
 		return score;
@@ -62,6 +69,10 @@ public class Pacman {
 
 	public String toString() {
 		return "Pacman info [ "+"Point: "+this.getPoint()+" ID:"+this.getID()+" Speed:"+this.getSpeed()+" Radius:"+this.getRadius()+"]";
+	}
+
+	public void translate(Point3D vec) {
+		// TODO check how to convert pixel to coords.
 	}
 
 }

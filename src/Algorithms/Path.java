@@ -9,20 +9,23 @@ import GameData.Pacman;
 public class Path extends ArrayList<PathNode> {
 	private static final long serialVersionUID = 1L;
 	MyCoords coords = new MyCoords();
-	
-	public Path() {}
+
+	public Path(Path p) {
+		for(int i=0;i<p.size();i++)
+			this.add(p.get(i));
+	}
 
 	public Path(ArrayList<Fruit> fList,Pacman pman) {
 		ArrayList<Fruit> sortedFL = sortByDist(fList,pman);
-		double runTime;
+		double runTime=0;
 		for(int i=0; i<sortedFL.size();i++) {
 			if (i==0) {
 				runTime=(coords.distance3d(pman.getPoint(), sortedFL.get(i).getPoint())/pman.getSpeed());
 				this.add(new PathNode(pman.getID(),sortedFL.get(i).getID(),runTime));
 			}
 			else {
-				runTime=(coords.distance3d(sortedFL.get(i-1).getPoint(), sortedFL.get(i).getPoint())/pman.getSpeed());
-				this.add(new PathNode(sortedFL.get(i-1).getID(),sortedFL.get(i).getID(),runTime));
+				runTime+=(coords.distance3d(sortedFL.get(i-1).getPoint(), sortedFL.get(i).getPoint())/pman.getSpeed());
+				this.add(new PathNode(pman.getID(),sortedFL.get(i).getID(),runTime));
 			}
 		}
 	} 
@@ -34,14 +37,14 @@ public class Path extends ArrayList<PathNode> {
 	 */
 
 	private ArrayList<Fruit> sortByDist(ArrayList<Fruit>fList,Pacman pman) {
-		
+
 		ArrayList<Fruit> copyFList = new ArrayList<Fruit>(fList); //make a deep copy of the fruit list
 		ArrayList<Fruit> sortedFL = new ArrayList<>(); // create a new list that will be sorted by distance from from the pacman.
-		
+
 		for(int i=0;i<fList.size();i++) { // loop that run on every element in the original list
 			double shortestDist=0; // keep the shortest distance between the Points
 			int rememberIndex=0; // keep the index of the most close point.
-			
+
 			for(int j=0;j<copyFList.size();j++) { // run on the copy list because her elements are getting delete every time the loop ends
 				if(i==0) { // if i equals 0 we want to check the distance between the pacman and the fist fruit to be
 					double dist = this.coords.distance3d(pman.getPoint(), copyFList.get(j).getPoint());
@@ -69,12 +72,18 @@ public class Path extends ArrayList<PathNode> {
 						}
 					}
 				}
-				sortedFL.add(copyFList.get(rememberIndex)); //add the closest element to our new list
-				copyFList.remove(rememberIndex); // delete the element the just added from the copy list to avoid duplicates.
 			}
+			sortedFL.add(copyFList.get(rememberIndex)); //add the closest element to our new list
+			copyFList.remove(rememberIndex); // delete the element the just added from the copy list to avoid duplicates.
 		}
 
 		return sortedFL; //return the sorted list
 	}
-
+	public void Print() {
+		System.out.println("The path - ");
+		for(int i=0;i<this.size();i++) {
+			System.out.println(" | Pacman ID: "+this.get(i).getPacmanID()+" Fruit ID: "+this.get(i).getFruitID()+" Time: "+this.get(i).getRunTime()+"| ");
+			if(i+1!=this.size()) System.out.println("                      V");
+		}
+	}
 }
