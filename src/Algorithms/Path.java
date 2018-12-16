@@ -10,20 +10,20 @@ public class Path extends ArrayList<PathNode> {
 	private static final long serialVersionUID = 1L;
 	MyCoords coords = new MyCoords();
 
-	public Path(Path p) {
+	public Path(Path p) { //copy constructor
 		for(int i=0;i<p.size();i++)
 			this.add(p.get(i));
 	}
 
-	public Path(ArrayList<Fruit> fList,Pacman pman) {
-		ArrayList<Fruit> sortedFL = sortByDist(fList,pman);
+	public Path(ArrayList<Fruit> fList,Pacman pman) { // constructor
+		ArrayList<Fruit> sortedFL = sortByDist(fList,pman); //calling sortByDist function
 		double runTime=0;
 		for(int i=0; i<sortedFL.size();i++) {
-			if (i==0) {
-				runTime=(coords.distance3d(pman.getPoint(), sortedFL.get(i).getPoint())/pman.getSpeed());
-				this.add(new PathNode(pman.getID(),sortedFL.get(i).getID(),runTime));
+			if (i==0) { // if i is zero runTime is between pacman and the first fruit
+				runTime=(coords.distance3d(pman.getPoint(), sortedFL.get(i).getPoint())/pman.getSpeed()); //"distance"/"pacman speed".
+				this.add(new PathNode(pman.getID(),sortedFL.get(i).getID(),runTime)); //add new path node to the path 
 			}
-			else {
+			else {// if i is bigger then zero runTime is between the previous fruit and the current fruit.
 				runTime+=(coords.distance3d(sortedFL.get(i-1).getPoint(), sortedFL.get(i).getPoint())/pman.getSpeed());
 				this.add(new PathNode(pman.getID(),sortedFL.get(i).getID(),runTime));
 			}
@@ -79,11 +79,5 @@ public class Path extends ArrayList<PathNode> {
 
 		return sortedFL; //return the sorted list
 	}
-	public void Print() {
-		System.out.println("The path - ");
-		for(int i=0;i<this.size();i++) {
-			System.out.println(" | Pacman ID: "+this.get(i).getPacmanID()+" Fruit ID: "+this.get(i).getFruitID()+" Time: "+this.get(i).getRunTime()+"| ");
-			if(i+1!=this.size()) System.out.println("                      V");
-		}
-	}
+	
 }

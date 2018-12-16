@@ -1,9 +1,9 @@
 package Algorithms;
 
 public class PathNode {
-	private int pacmanID;
-	private int fruitID;
-	private double runTime;
+	private int pacmanID; //pacman ID
+	private int fruitID; //fruit ID
+	private double runTime; //is the distance between pacman and fruit divided by pacman speed. 
 	
 	public PathNode(int pacmanID,int fruitID,double runTime) {
 		this.pacmanID=pacmanID;
@@ -29,6 +29,10 @@ public class PathNode {
 
 	void setRunTime(double runTime) {
 		this.runTime = runTime;
+	}
+	
+	public String toString() {
+		return "{ Pacman ID: "+this.getPacmanID()+" friut ID: "+this.getFruitID()+" Time: "+this.getRunTime()+"}";
 	}
 	
 }
