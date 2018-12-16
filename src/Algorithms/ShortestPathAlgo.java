@@ -9,6 +9,27 @@ public class ShortestPathAlgo {
 	public ShortestPathAlgo(Game game) {
 		this.game=game;
 	}
+	public void pacmansPath() {
+		this.getTheShortestPath();
+		for(int i=0;i<game.pList().size();i++) {
+			int pacmanID=game.pList().get(i).getID();
+			
+			for(int k=0;k<shortestPath.size();k++) {
+				int shortListPacID=shortestPath.get(k).getPacmanID();
+				
+				for(int j=0;j<game.pList().get(i).getPath().size();j++) {
+					if(shortestPath.get(k).getFruitID() == game.pList().get(i).getPath().get(j).getFruitID()) {
+						if(shortListPacID != pacmanID) {
+							game.pList().get(i).getPath().remove(j);
+						}
+					}
+				}
+				
+			}
+			
+		}
+
+	}
 
 	public Path getTheShortestPath() {
 		for(int i=0;i<game.pList().size();i++) {
