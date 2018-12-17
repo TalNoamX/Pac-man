@@ -64,8 +64,10 @@ public class Pacman {
 	public void setPath(Path p) {
 		shortPath = new Path(p);
 	}
-
 	
+	public void setSpeed(int s) {
+		this.speed=s;
+	}
 	public int getScore() {
 		return score;
 	}
