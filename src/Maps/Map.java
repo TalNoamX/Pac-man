@@ -24,7 +24,6 @@ public class Map {
 		return pix;
 	}
 
-      	
 	public Point3D pixTodeg (Point3D pixle) {
 		double lat = ((myImage.getWidth()*top.x())+pixle.x()*(bottom.x()-top.x()))/myImage.getWidth();
 		double lon = ((myImage.getHeight()*bottom.y())+(myImage.getHeight()-pixle.y())*(top.y()-bottom.y()))/myImage.getHeight();
@@ -36,14 +35,15 @@ public class Map {
 		double distance = Math.sqrt(Math.pow(p2.x()-p1.x(),2)+Math.pow(p2.y()-p1.y(), 2));
 		return distance;
 	}
+	
 	/**
 	 * lon + lat in meters.
 	 */
 	private void setlonLat() {
 		MyCoords mc = new MyCoords();
-		double lon = mc.distance3d(thirdEdge, bottom);
-		double lat = mc.distance3d(top, thirdEdge);
-		Point3D lonLat = new Point3D (lon,lat);
+		double lat = mc.distance3d(bottom, thirdEdge);
+		double lon = mc.distance3d(top, thirdEdge);
+		Point3D lonLat = new Point3D (lat,lon);
 		this.lonLat=lonLat;
 	}
 
@@ -76,12 +76,3 @@ public class Map {
 		return myImage;
 	}
 }
-
-
-//Point3D top = new Point3D(32.10555556,35.21222222,0);
-//Point3D Bottom = new Point3D(32.10166667,35.20222222,0);
-
-////double deglon = Math.abs(top.x()-thirdEdge.x());
-//double degLat = Math.abs(bottom.x()-thirdEdge.x()); 
-//double lon = pixle.x()*degLat/myImage.getWidth()+this.top.x();
-////double lon = pixle.y()*deglon/myImage.getHeight()+this.top.y();

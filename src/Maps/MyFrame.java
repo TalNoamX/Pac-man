@@ -44,8 +44,10 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		Menu menu1 = new Menu("File");  
 		MenuItem item1 = new MenuItem("Load csv");
 		MenuItem item2 = new MenuItem("Run");
+		MenuItem item3 = new MenuItem("save as kml");
 		menu1.add(item1);
 		menu1.add(item2);
+		menu1.add(item3);
 		menuBar.add(menu1);
 		this.setMenuBar(menuBar);
 		JLabel label = new JLabel(new ImageIcon(myImage));
@@ -128,8 +130,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		Point3D rightTop = new Point3D(32.10555556,35.21222222,0);
 		Point3D leftBottom = new Point3D(32.10166667,35.20222222,0);
 		Point3D rightBottom = new Point3D(32.10166667,35.21222222,0);
-		Point3D leftTop = new Point3D(32.103315,35.209039);
-		Point3D pixStart = new Point3D(1433,642,0);
+		Point3D leftTop = new Point3D(32.10555556,35.20222222);
+		Point3D pixStart = new Point3D(0,0,0);
 		Map map = new Map("Ariel1.png",rightTop,leftBottom);
 		System.out.println("pix to deg: " + map.pixTodeg(pixStart));
 		System.out.println("deg to pix: " + map.degToPix(leftBottom));
