@@ -30,6 +30,9 @@ public class Pacman {
 	public Point3D getPoint() {
 		return point;
 	}
+	public void setPoint(Point3D p) {
+		point = new Point3D(p);
+	}
 
 	public int getID() {
 		return ID;
