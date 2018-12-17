@@ -1,14 +1,21 @@
 package Algorithms;
 
+import GameData.Fruit;
+
 public class PathNode {
+	private Fruit fruit;
 	private int pacmanID; //pacman ID
 	private int fruitID; //fruit ID
 	private double runTime; //is the distance between pacman and fruit divided by pacman speed. 
 	
-	public PathNode(int pacmanID,int fruitID,double runTime) {
+	public PathNode(Fruit fruit,int pacmanID,int fruitID,double runTime) {
+		this.fruit = new Fruit(fruit);
 		this.pacmanID=pacmanID;
 		this.fruitID=fruitID;
 		this.runTime=runTime;
+	}
+	public Fruit getFruit() {
+		return fruit;
 	}
 
 	public double getRunTime() {

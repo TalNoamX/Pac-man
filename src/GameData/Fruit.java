@@ -28,6 +28,12 @@ public class Fruit {
 		this.setWeight(weight);
 		this.setID(id);
 	}
+	public Fruit(Fruit fruit) {
+		this.time = fruit.time;
+		point=new Point3D(fruit.getPoint());
+		Weight = fruit.getWeight();
+		ID = fruit.getID();
+	}
 
 	public String GetTime() {
 		return time.getTime();

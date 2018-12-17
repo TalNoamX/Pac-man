@@ -13,12 +13,11 @@ public class TempPackmanPath {
 
 	public static void main(String[] args) {
 
-		String s ="C:\\Users\\amitai\\Desktop\\game_1543684662657.csv" ;
+		String s ="C:\\Users\\טל\\Desktop\\game_1543684662657.csv" ;
 		Game g = new Game(s);
 		ShortestPathAlgo STA = new ShortestPathAlgo(g);
 		STA.pacmansPath();
-		ArrayList<Pacman> arr=new ArrayList<>(g.pList());
-		Iterator<Pacman> it=arr.iterator();
+		Iterator<Pacman> it=g.pList().iterator();
 		TempPackmanPath r=new TempPackmanPath();
 		while(it.hasNext()) {
 			Pacman temp=it.next();
@@ -33,10 +32,9 @@ public class TempPackmanPath {
 		fullgamepath(res, pac);
 	}
 
-	public void path2(Pacman pac, Fruit fru) {
+	public void path2(Pacman pac, Fruit fru,int FruitIndex) {
 		MyCoords coords=new MyCoords();
-		PathNode node=findefruitinpath(pac, fru);
-		double dis=node.getRunTime();
+		double dis=pac.getPath().get(FruitIndex).getRunTime();
 		Point3D midvec=coords.vector3D(pac.getPoint(),fru.getPoint());
 		double x= midvec.x()/dis;
 		double y=midvec.y()/dis;
@@ -59,26 +57,17 @@ public class TempPackmanPath {
 
 	public void fullgamepath(ArrayList<Fruit> arr,Pacman pac) {
 		Iterator<Fruit> it=arr.iterator();
+		int FruitIndex=0;
 		while(it.hasNext()) {
 			Fruit fru=it.next();
-			path2(pac, fru);
+			path2(pac, fru,FruitIndex);
 			pac.setPoint(fru.getPoint());
+			FruitIndex++;
 
 		}
 
 	}
 
-	public PathNode findefruitinpath(Pacman pac,Fruit fru) {
-		PathNode node=new PathNode(0, 0, 0);
-		Iterator<PathNode> it2=pac.getPath().iterator();
-		boolean flag=false;
-		while(it2.hasNext() && flag==false) {
-			PathNode temp= it2.next();
-			if(temp.getFruitID()==fru.getID())
-				node=new PathNode(temp.getPacmanID(), temp.getFruitID(), temp.getRunTime());
-		}
-		return node;
-	}
 	public ArrayList<Fruit> sortpath(Pacman pac,ArrayList<Fruit> arr) {
 		ArrayList<Fruit> res=new ArrayList<Fruit>();
 		Iterator<Fruit> it=arr.iterator();

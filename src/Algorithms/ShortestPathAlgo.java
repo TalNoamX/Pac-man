@@ -31,7 +31,7 @@ public class ShortestPathAlgo {
 
 	}
 
-	public Path getTheShortestPath() {
+	private Path getTheShortestPath() {
 		for(int i=0;i<game.pList().size();i++) {
 			Path temp = new Path(game.fList(),game.pList().get(i));
 			game.pList().get(i).setPath(temp); //you need to continue each pacman path somewhere!!! maybe here maybe@@@@@@@@

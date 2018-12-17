@@ -21,11 +21,11 @@ public class Path extends ArrayList<PathNode> {
 		for(int i=0; i<sortedFL.size();i++) {
 			if (i==0) { // if i is zero runTime is between pacman and the first fruit
 				runTime=(coords.distance3d(pman.getPoint(), sortedFL.get(i).getPoint())/pman.getSpeed()); //"distance"/"pacman speed".
-				this.add(new PathNode(pman.getID(),sortedFL.get(i).getID(),runTime)); //add new path node to the path 
+				this.add(new PathNode(sortedFL.get(i),pman.getID(),sortedFL.get(i).getID(),runTime)); //add new path node to the path 
 			}
 			else {// if i is bigger then zero runTime is between the previous fruit and the current fruit.
 				runTime+=(coords.distance3d(sortedFL.get(i-1).getPoint(), sortedFL.get(i).getPoint())/pman.getSpeed());
-				this.add(new PathNode(pman.getID(),sortedFL.get(i).getID(),runTime));
+				this.add(new PathNode(sortedFL.get(i),pman.getID(),sortedFL.get(i).getID(),runTime));
 			}
 		}
 	} 
