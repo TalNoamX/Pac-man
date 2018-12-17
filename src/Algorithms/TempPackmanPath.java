@@ -24,7 +24,6 @@ public class TempPackmanPath {
 			r.pathcalculation(temp,g.fList());
 			System.out.println("hello");
 		}
-
 	}
 
 	public void pathcalculation(Pacman pac,ArrayList<Fruit> arr) {
