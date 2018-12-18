@@ -31,7 +31,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	int y = -1;
 
 	public MyFrame(String path, Point3D top, Point3D bottom) {
-		map = new Map(path, top, bottom);
+		map = new Map(path, top, bottom, this.getWidth(),this.getHeight());
 		myImage = map.getmyImage();
 		initGUI();		
 		this.addMouseListener(this); 
@@ -55,7 +55,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	}
 
 	public void paint(Graphics g) {
-		g.drawImage(myImage, 0, 0, this.getWidth()-10,this.getHeight()-10,this);
+		g.drawImage(myImage, 8,53, this.getWidth()-16,this.getHeight()-61,this);
 		Iterator<Point3D> it=coords.iterator();
 		while(it.hasNext()) {
 			Point3D temp=it.next();
@@ -65,6 +65,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				int r = 10;
 				x = x - (r / 2);
 				y = y - (r / 2);
+				map.setHeight(this.getHeight());
+				map.setWidth(this.getWidth());
 				g.fillOval(x, y, r, r);
 			}
 		}
@@ -127,18 +129,24 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 
 	}
 	public static void main(String[] args) {
-		Point3D rightTop = new Point3D(32.10555556,35.21222222,0);
-		Point3D leftBottom = new Point3D(32.10166667,35.20222222,0);
-		Point3D rightBottom = new Point3D(32.10166667,35.21222222,0);
-		Point3D leftTop = new Point3D(32.10555556,35.20222222);
-		Point3D pixStart = new Point3D(0,0,0);
-		Map map = new Map("Ariel1.png",rightTop,leftBottom);
+		Point3D leftTop = new Point3D(32.105779,35.202331,0);
+		Point3D rightBottom = new Point3D(32.10144032,35.211050472,0);
+		Point3D leftBottom = new Point3D(32.10166667,35.21222222,0);
+		Point3D rightTop = new Point3D(32.10555556,35.20222222);
+		Point3D pixStart = new Point3D(697, 616,0);
+		MyFrame window = new MyFrame("Ariel1.png", leftTop, leftBottom);
+
+		Map map = new Map("Ariel1.png",rightTop,leftBottom,window.getWidth(),window.getHeight());
 		System.out.println("pix to deg: " + map.pixTodeg(pixStart));
 		System.out.println("deg to pix: " + map.degToPix(leftBottom));
 		System.out.println("deg to pix: " + map.degToPix(rightTop));
 		System.out.println("deg to pix: " + map.degToPix(rightBottom));
 		System.out.println("deg to pix111: " + map.degToPix(leftTop));
 
+		window.setPreferredSize(new Dimension(window.myImage.getWidth()+100, window.myImage.getHeight()+100));
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setVisible(true);
+		window.pack();
 
 	}
 }
@@ -155,9 +163,3 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 
 
 
-
-//MyFrame window = new MyFrame("Ariel1.png", rightTop, leftBottom);
-//window.setPreferredSize(new Dimension(window.myImage.getWidth()+100, window.myImage.getHeight()+100));
-//window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//window.setVisible(true);
-//window.pack();
