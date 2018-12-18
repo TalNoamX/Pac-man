@@ -36,7 +36,7 @@ public class MyCoords implements coords_converter{
 	@Override
 	public double distance3d(Point3D gps0, Point3D gps1) {
 		Point3D vectorDis = new Point3D(this.vector3D(gps0, gps1));
-		return Math.sqrt(vectorDis.x()*vectorDis.x()+vectorDis.y()*vectorDis.y());
+		return Math.sqrt(vectorDis.x()*vectorDis.x()+vectorDis.y()*vectorDis.y()+vectorDis.z()*vectorDis.z());
 	}
 	
 	/**
