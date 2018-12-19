@@ -22,6 +22,13 @@ public class Fruit {
 	 * @param alt part of a coordinate
 	 * @param weight The fruit weight for the calculation of the score 
 	 */
+	public Fruit(int id,double lat,double lon,double alt,double wei ) {
+		time = new timeData();
+		point=new Point3D(lat,lon,alt);
+		ID=id;
+		Weight=wei;
+	}
+	
 	public Fruit(String id,String lat,String lon,String alt,String weight ) {
 		time = new timeData();
 		point=new Point3D(lat,lon,alt);
@@ -57,10 +64,6 @@ public class Fruit {
 
 	private void setWeight(String w) {
 		Weight=Double.parseDouble(w);
-	}
-
-	public void translate(Point3D vec) {
-		// TODO Auto-generated method stub
 	}
 
 	public String toString() {

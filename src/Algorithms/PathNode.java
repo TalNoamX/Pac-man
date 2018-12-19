@@ -3,12 +3,12 @@ package Algorithms;
 import GameData.Fruit;
 
 public class PathNode {
-	private Fruit fruit;
-	private int pacmanID; //pacman ID
-	private int fruitID; //fruit ID
-	private double runTime; //is the distance between pacman and fruit divided by pacman speed. 
+	private Fruit fruit; //keep a deep copy of the fruit actual 
+	private int pacmanID; //Pacman ID
+	private int fruitID; //Fruit ID
+	private double runTime; //runTime is the distance between pacman and fruit divided by pacman speed. 
 	
-	public PathNode(Fruit fruit,int pacmanID,int fruitID,double runTime) {
+	public PathNode(Fruit fruit,int pacmanID,int fruitID,double runTime) { //constructor
 		this.fruit = new Fruit(fruit);
 		this.pacmanID=pacmanID;
 		this.fruitID=fruitID;
@@ -30,11 +30,11 @@ public class PathNode {
 		return fruitID;
 	}
 
-	void setPacmanID(int pacmanID) {
+	void setPacmanID(int pacmanID) { //the algorithm use this setter, that is why it is package friendly
 		this.pacmanID = pacmanID;
 	}
 
-	void setRunTime(double runTime) {
+	void setRunTime(double runTime) {//the algorithm use this setter, that is why it is package friendly
 		this.runTime = runTime;
 	}
 	

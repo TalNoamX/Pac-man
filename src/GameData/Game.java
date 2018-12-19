@@ -25,34 +25,7 @@ public class Game {
 	public ArrayList<Fruit> fList() {
 		return fList;
 	}
-/*
-	***********************OPTIONAL***********************************************
-	*THIS SECTION IS NOT CLEAR YET! DO NOT TOUCH IT (TAL'S WORK)
-	*maybe we will need add and remove function and maybe we will use the original ArrayList add and remove.
-	
-		public boolean addPacman(Pacman p) {
-			if (pList.add(p)==true) {
-				pacmanNum++;
-				return true;
-			}
-			else return false;
-		}
-		
-		public boolean addFruit(Fruit f) {
-			if (fList.add(f)==true) {
-				fruitNum++;
-				return true;
-			}
-			else return false;
-		}
-		public boolean removeFruit(Fruit f) {
-			if (fList.remove(f)==true) {
-				fruitNum--;
-				return true;
-			}
-			else return false;
-		}
-	************************************************************************************* */
+
 	public Game(String name) {
 		pList = new ArrayList<Pacman>();
 		fList = new ArrayList<Fruit>();

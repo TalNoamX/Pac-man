@@ -11,7 +11,16 @@ public class Pacman {
 	private double radius;
 	private int ID;
 	private int score;
-
+	
+	public Pacman(int id, double lat ,double lon , double alt, double sp ,double rad) {
+		time = new timeData();
+		point = new Point3D(lat,lon,alt);
+		ID=id;
+		speed=sp;
+		radius=rad;
+		score = 0;
+	}
+	
 	public Pacman(String id, String lat ,String lon , String alt, String sp ,String rad) {
 		time = new timeData();
 		point = new Point3D(lat,lon,alt);
@@ -20,9 +29,11 @@ public class Pacman {
 		this.setSpeed(sp);
 		score = 0;
 	}
+	
 	public void addScore(double n) {
 		score += n;
 	}
+	
 	public String GetTime() {
 		return time.getTime();
 	}
@@ -30,19 +41,29 @@ public class Pacman {
 	public Point3D getPoint() {
 		return point;
 	}
-	public void setPoint(Point3D p) {
-		point = new Point3D(p);
-	}
 
 	public int getID() {
 		return ID;
 	}
+	
 	public double getSpeed() {
 		return speed;
 	}
 
 	public double getRadius() {
 		return radius;
+	}
+	
+	public Path getPath() {
+		return shortPath;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public void setPoint(Point3D p) {
+		point = new Point3D(p);
 	}
 
 	private void setSpeed(String sp) {
@@ -57,10 +78,6 @@ public class Pacman {
 		ID = Integer.parseInt(id);
 	}
 	
-	public Path getPath() {
-		return shortPath;
-	}
-	
 	public void setPath(Path p) {
 		shortPath = new Path(p);
 	}
@@ -68,16 +85,9 @@ public class Pacman {
 	public void setSpeed(int s) {
 		this.speed=s;
 	}
-	public int getScore() {
-		return score;
-	}
 
 	public String toString() {
 		return "Pacman info [ "+"Point: "+this.getPoint()+" ID:"+this.getID()+" Speed:"+this.getSpeed()+" Radius:"+this.getRadius()+"]";
-	}
-
-	public void translate(Point3D vec) {
-		// TODO check how to convert pixel to coords.
 	}
 
 }

@@ -16,7 +16,7 @@ public class Path extends ArrayList<PathNode> {
 	}
 
 	public Path(ArrayList<Fruit> fList,Pacman pman) { // constructor
-		ArrayList<Fruit> sortedFL = sortByDist(fList,pman); //calling sortByDist function
+		ArrayList<Fruit> sortedFL = sortByTime(fList,pman); //calling sortByDist function
 		double runTime=0;
 		for(int i=0; i<sortedFL.size();i++) {
 			if (i==0) { // if i is zero runTime is between pacman and the first fruit
@@ -36,7 +36,7 @@ public class Path extends ArrayList<PathNode> {
 	 * @return the same fruit list sorted by the shortest path the pacman need to run to eat them all.
 	 */
 
-	private ArrayList<Fruit> sortByDist(ArrayList<Fruit>fList,Pacman pman) {
+	private ArrayList<Fruit> sortByTime(ArrayList<Fruit>fList,Pacman pman) {
 
 		ArrayList<Fruit> copyFList = new ArrayList<Fruit>(fList); //make a deep copy of the fruit list
 		ArrayList<Fruit> sortedFL = new ArrayList<>(); // create a new list that will be sorted by distance from from the pacman.
