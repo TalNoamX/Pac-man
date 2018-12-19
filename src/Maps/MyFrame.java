@@ -34,6 +34,10 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	private int pacmanID;
 	private Game game;
 	Dimension fSize; //The frame size
+	double heighty;
+	double widthx;
+	int imgheight;
+	int imgwidth;
 
 	/**
 	 * constructor 
@@ -45,6 +49,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		map = new Map(path, leftTop, rightBottom, rightTop);//Setting a new map
 		myImage = map.getmyImage();// setting the map image
 		setMenu();	//setting the menu bar with all the options
+		imgwidth=myImage.getWidth();
+		imgheight=myImage.getHeight();
 		//adding the image to the frame
 		JLabel label1 = new JLabel(new ImageIcon(myImage));
 		add(label1);
@@ -178,14 +184,14 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				Iterator<Fruit> itF=game.fList().iterator(); // iterator for fruit
 				while(itP.hasNext()) {//Drawing the Pcamans.
 					Pacman temp=itP.next();
-					int x = (int)temp.getPoint().x();
-					int y = (int)temp.getPoint().y();
+					int x = (int)(temp.getPoint().x()*(widthx/imgwidth));
+					int y = (int)(temp.getPoint().y()*(heighty/imgheight));
 					g.drawImage(pacmanImg, x, y, pacmanImg.getWidth(), pacmanImg.getHeight(), this);
 				}
 				while(itF.hasNext()) {//Drawing the Fruits.
 					Fruit temp = itF.next();
-					int x = (int)temp.getPoint().x();
-					int y = (int)temp.getPoint().y();
+					int x = (int)(temp.getPoint().x()*(widthx/imgwidth));
+					int y = (int)(temp.getPoint().y()*(heighty/imgheight));
 					g.drawImage(FruitImg, x, y, FruitImg.getWidth(), FruitImg.getHeight(), this);
 				}
 			}
@@ -194,8 +200,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		int x=e.getX();
-		int y=e.getY();
+		int x=(int)(e.getX()/(widthx/imgwidth));
+		int y=(int)(e.getY()/(heighty/imgheight));
 		Point3D p=new Point3D(x, y);
 		if(fruitButton) {
 			game.fList().add(new Fruit(++fruitID, p.x(), p.y(), p.z(), 1));//The default fruit weight is 1
@@ -207,26 +213,10 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	}
 	public void componentResized(ComponentEvent e) {
 		
-		double xRat =  (e.getComponent().getWidth()/this.getWidth()); 
-		double yRat =  (e.getComponent().getHeight()/this.getHeight());
-		Iterator<Pacman> itP=game.pList().iterator();
-		Iterator<Fruit> itF=game.fList().iterator();
-		while(itP.hasNext()) {
-			Pacman p = itP.next();
-			p.setPoint(new Point3D(p.getPoint().x()*xRat, p.getPoint().y()*yRat));
-			System.out.println(p.getPoint());
-		}
-
-		while(itF.hasNext()) {
-			Fruit f = itF.next();
-			f.setPoint(new Point3D(f.getPoint().x()*xRat, f.getPoint().y()));
-		}
-		//			for(Pacman p: game.pList()) {
-		//				p.setPoint(new Point3D(p.getPoint().x()*xRat, p.getPoint().y()*yRat));
-		//			}
-		//			for(Fruit f: game.fList()) {
-		//				f.setPoint(new Point3D(f.getPoint().y()*yRat, f.getPoint().y()));
-		//			}
+		widthx=e.getComponent().getWidth();
+		heighty=e.getComponent().getHeight();
+	
+		repaint();
 	}
 
 	//Unneeded functions:
