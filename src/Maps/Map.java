@@ -10,29 +10,24 @@ import Geom.Point3D;
 public class Map {
 	
 	private BufferedImage myImage;
-	private Point3D top;
-	private Point3D bottom;
+	private Point3D leftTop;
+	private Point3D rightBottom;
+	private Point3D rightTop;
 	private int imgWidth;
 	private int imgHeight;
-	private Point3D lonLat;
+	
 
 	
 	
 
 
-	public Map(String path, Point3D top, Point3D bottom, int imgWidth, int imgHeight) {
-		if(!top.equals(bottom)) {
-			this.top=top;
-			this.bottom=bottom;
-		}
-		else {
-			top = new Point3D(0,0);
-			bottom = new Point3D(0,0);
-		}
-		this.imgHeight=imgHeight;//get this pic height
-		this.imgWidth=imgWidth; // get this pic width
-
-		setMyImage(path);//get url of the map
+	public Map(String path, Point3D leftTop, Point3D rightBottom, Point3D rightTop) {
+		this.leftTop=leftTop;
+		this.rightBottom=rightBottom;
+		this.rightTop=rightTop;
+		setMyImage(path);//get path of the map Image
+		imgHeight=myImage.getHeight();//get this pic height
+		imgWidth = myImage.getWidth(); // get this pic width
 	}
 	
 	public void setHeight(int height) {//get new height
@@ -54,26 +49,20 @@ public class Map {
 	public BufferedImage getmyImage() {// get the map image
 		return myImage;
 	}
+	
 	public Point3D coords2pixels(Point3D point) {//this function coonvert point coordinates to point pixels
-		Point3D leftTop = new Point3D(32.10566,35.20238);//left top point coordinate of the map
-		Point3D rightBottom = new Point3D(32.10191,35.21237);//right botom coordinate point of the map
-		Point3D leftBottom = new Point3D(32.10187,35.20239); // left botom coordinate of the map
-		Point3D rightTop = new Point3D(32.10566,35.21241); // right top coordinate of the map
-		MyCoords coords=new MyCoords();
-		Point3D vector =coords.vector3D(leftTop, point);// get the vector between the left top point to the point we enter
+		MyCoords coords = new MyCoords();
+		Point3D vector = coords.vector3D(leftTop, point);// get the vector between the left top point to the point we enter
 		double leftRight = this.imgWidth/coords.distance3d(leftTop, rightTop); //the distance(x) between left top point and the right top point
 		double topBottom = this.imgHeight/coords.distance3d(rightTop, rightBottom); //the distance(y) between right top point and the right botom point
-		double y=vector.x()*(-1)*topBottom; // the point y value
-		double x=vector.y()*leftRight; // the x point value
+		double y = vector.x()*(-1)*topBottom; // the point y value
+		double x = vector.y()*leftRight; // the x point value
 		point=new Point3D(x,y); // the value of point in pixel
 		return point;
 	}
+	
 	public Point3D pixels2coords(Point3D point) {//this function transform a pixel point to coordinate point
-		Point3D leftTop = new Point3D(32.10566,35.20238);//left top point coordinate of the map
-		Point3D rightBottom = new Point3D(32.10191,35.21237);//right botom coordinate point of the map
-		Point3D leftBottom = new Point3D(32.10187,35.20239);// left botom coordinate of the map
-		Point3D rightTop = new Point3D(32.10566,35.21241);// right top coordinate of the map
-		MyCoords coords=new MyCoords();
+		MyCoords coords = new MyCoords();
 		double leftRight = this.imgWidth/coords.distance3d(leftTop, rightTop);
 		double topBottom = this.imgHeight/coords.distance3d(rightTop, rightBottom);
 		double x=point.y()/(topBottom*(-1));// x value of the point in coords
@@ -98,3 +87,6 @@ public class Map {
 		return azimuth;
 	}
 }
+
+
+//		Point3D leftBottom = new Point3D(32.10187,35.20239);// left botom coordinate of the map
