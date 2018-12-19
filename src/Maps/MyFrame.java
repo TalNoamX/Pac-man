@@ -26,6 +26,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	private MenuItem saveKml;
 	private MenuItem pacman;
 	private MenuItem fruit;
+	private MenuItem clear;
 	//will tell us whether to add a pacman or a fruit when pressed
 	private boolean fruitButton = false;
 	private boolean pacmanButton = false;
@@ -73,8 +74,10 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		Menu menu2 = new Menu("Draw Images");  
 		pacman = new MenuItem("Pacman");
 		fruit = new MenuItem("Fruit");
+		clear = new MenuItem("clear");
 		menu2.add(pacman);
 		menu2.add(fruit);
+		menu2.add(clear);
 		menuBar.add(menu1);
 		menuBar.add(menu2);
 		this.setMenuBar(menuBar);
@@ -117,7 +120,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				}
 				else JOptionPane.showMessageDialog(null, "Not a CSV file, Please try again");
 			}
-	
+
 		});
 		run.addActionListener(new ActionListener() {	//Starting The Game.
 			public void actionPerformed(ActionEvent e) {
@@ -126,7 +129,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		});
 		saveKml.addActionListener(new ActionListener() {	//Saving The game Data as kml.
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		pacman.addActionListener(new ActionListener() {	//Drawing pacmans.
@@ -136,7 +139,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				pacmanButton=true;
 			}
 		});
-		
+
 		fruit.addActionListener(new ActionListener() {	//Drawing fruits
 			public void actionPerformed(ActionEvent e) {
 				if (pacmanButton) pacmanButton = false;//in case we drew pacmans before
@@ -144,9 +147,18 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				fruitButton=true;
 			}
 		});
+		clear.addActionListener(new ActionListener() {	//Clearing The screen from the Images
+			public void actionPerformed(ActionEvent e) {
+				game.pList().clear();
+				game.fList().clear();
+				repaint();
+			}
+		});
 	}
 
-	
+	/**
+	 * Setting the points we got from a csv file to match the map
+	 */
 	private void setPoints() {
 		for(Pacman p: game.pList()) {
 			p.setPoint(map.coords2pixels(p.getPoint()));
@@ -160,21 +172,25 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	 */
 	public void paint(Graphics g) {
 		g.drawImage(myImage, 8,53, this.getWidth()-16,this.getHeight()-61,this);//Drawing the map image
-			Iterator<Pacman> itP=game.pList().iterator();
-			Iterator<Fruit> itF=game.fList().iterator();
-			while(itP.hasNext()) {
-				Pacman temp=itP.next();
-				int x = (int)temp.getPoint().x();
-				int y = (int)temp.getPoint().y();
-				g.drawImage(pacmanImg, x, y, pacmanImg.getWidth(), pacmanImg.getHeight(), this);
-			}
-			while(itF.hasNext()) {
-				Fruit temp = itF.next();
-				int x = (int)temp.getPoint().x();
-				int y = (int)temp.getPoint().y();
-				g.drawImage(FruitImg, x, y, FruitImg.getWidth(), FruitImg.getHeight(), this);
+		if(game.pList()!=null) {
+			Iterator<Pacman> itP=game.pList().iterator();// iterator for pacman
+			if(game.fList()!=null) {
+				Iterator<Fruit> itF=game.fList().iterator(); // iterator for fruit
+				while(itP.hasNext()) {//Drawing the Pcamans.
+					Pacman temp=itP.next();
+					int x = (int)temp.getPoint().x();
+					int y = (int)temp.getPoint().y();
+					g.drawImage(pacmanImg, x, y, pacmanImg.getWidth(), pacmanImg.getHeight(), this);
+				}
+				while(itF.hasNext()) {//Drawing the Fruits.
+					Fruit temp = itF.next();
+					int x = (int)temp.getPoint().x();
+					int y = (int)temp.getPoint().y();
+					g.drawImage(FruitImg, x, y, FruitImg.getWidth(), FruitImg.getHeight(), this);
+				}
 			}
 		}
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -188,9 +204,9 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 			game.pList().add(new Pacman(++pacmanID, p.x(), p.y(), p.x(), 1, 1));//The default radius and speed is 1
 		}
 		repaint();
-	
 	}
 	public void componentResized(ComponentEvent e) {
+		
 		double xRat =  (e.getComponent().getWidth()/this.getWidth()); 
 		double yRat =  (e.getComponent().getHeight()/this.getHeight());
 		Iterator<Pacman> itP=game.pList().iterator();
@@ -200,17 +216,17 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 			p.setPoint(new Point3D(p.getPoint().x()*xRat, p.getPoint().y()*yRat));
 			System.out.println(p.getPoint());
 		}
-		
+
 		while(itF.hasNext()) {
 			Fruit f = itF.next();
 			f.setPoint(new Point3D(f.getPoint().x()*xRat, f.getPoint().y()));
 		}
-//			for(Pacman p: game.pList()) {
-//				p.setPoint(new Point3D(p.getPoint().x()*xRat, p.getPoint().y()*yRat));
-//			}
-//			for(Fruit f: game.fList()) {
-//				f.setPoint(new Point3D(f.getPoint().y()*yRat, f.getPoint().y()));
-//			}
+		//			for(Pacman p: game.pList()) {
+		//				p.setPoint(new Point3D(p.getPoint().x()*xRat, p.getPoint().y()*yRat));
+		//			}
+		//			for(Fruit f: game.fList()) {
+		//				f.setPoint(new Point3D(f.getPoint().y()*yRat, f.getPoint().y()));
+		//			}
 	}
 
 	//Unneeded functions:
