@@ -23,7 +23,7 @@ public class ShortestPathAlgoThread extends Thread{
 
 		}
 	}
-	public void fullGamePath(Pacman pac, Fruit fru) { //this function take the path of every pacman and move the pucman to every fruit on uts path.
+	public synchronized void fullGamePath (Pacman pac, Fruit fru) { //this function take the path of every pacman and move the pucman to every fruit on uts path.
 		double x,y,z; 
 		MyCoords coords=new MyCoords();
 		double runTime=pac.getPath().get(0).getRunTime(); //runTime
