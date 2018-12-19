@@ -65,6 +65,9 @@ public class Fruit {
 	private void setWeight(String w) {
 		Weight=Double.parseDouble(w);
 	}
+	public void setPoint(Point3D p) {
+		point = new Point3D(p);
+	}
 
 	public String toString() {
 		return "Fruit info [ "+"Point: "+this.getPoint()+" ID:"+this.getID()+" Weight:"+this.getWeight()+"]";
