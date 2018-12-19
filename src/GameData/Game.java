@@ -26,9 +26,7 @@ public class Game {
 		return fList;
 	}
 
-	public Game(String name) {
-		pList = new ArrayList<Pacman>();
-		fList = new ArrayList<Fruit>();
+	public void csvToGame(String name) {
 		String csvFile = name;
 		String line = "";
 		String type="";
