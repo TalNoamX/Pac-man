@@ -36,26 +36,24 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 
 	/**
 	 * constructor 
-	 * @param path
-	 * @param top
+	 * @param path The Images Path
+	 * @param top The
 	 * @param bottom
 	 */
-	public MyFrame(String path, Point3D top, Point3D bottom) {
-		map = new Map(path, new Point3D(32.10566,35.20238), new Point3D(32.10191,35.21237),new Point3D(32.10566,35.21241));//Setting a new map
+	public MyFrame(String path, Point3D leftTop, Point3D rightBottom, Point3D rightTop) {
+		map = new Map(path, leftTop, rightBottom, rightTop);//Setting a new map
 		myImage = map.getmyImage();// setting the map image
 		setMenu();	//setting the menu bar with all the options
 		//adding the image to the frame
 		JLabel label1 = new JLabel(new ImageIcon(myImage));
 		add(label1);
 		game = new Game();
-		setActionListeners();//adding action listeners to the menu Items/
-		setPacFruImg();//setting the image of the poacman and the fruit
+		setActionListeners();//adding action listeners to the menu Items
+		setPacFruImg();//setting the image of the pacman and the fruit
 		this.addMouseListener(this); //adding mouselisteners
 		this.addComponentListener(this);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
 		fSize = this.getSize();
-		pack();
+
 	}
 
 	/**
@@ -103,7 +101,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	 * Setting all the needed ACtionListeners For the menuItem.
 	 */
 	public void setActionListeners() {
-		loadCSV.addActionListener(new ActionListener() {	//Loading CSV game files. 
+		loadCSV.addActionListener(new ActionListener() {	//Loading CSV game files usinf FileChooser 
 			public void actionPerformed(ActionEvent e) {
 				JButton open = new JButton();
 				JFileChooser fileChooser = new JFileChooser();
@@ -114,35 +112,35 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				}
 				if(fileChooser.getSelectedFile().getAbsolutePath().endsWith(".csv")) {
 					game.csvToGame(fileChooser.getSelectedFile().getAbsolutePath());
-					setPoints();
+					setPoints();//Changes all the points coords to mach the map.
 					repaint();
 				}
 				else JOptionPane.showMessageDialog(null, "Not a CSV file, Please try again");
 			}
 	
 		});
-		run.addActionListener(new ActionListener() {	//Stating The Game.
+		run.addActionListener(new ActionListener() {	//Starting The Game.
 			public void actionPerformed(ActionEvent e) {
-
+				
 			}
 		});
 		saveKml.addActionListener(new ActionListener() {	//Saving The game Data as kml.
-
 			public void actionPerformed(ActionEvent e) {
-
+				
 			}
 		});
 		pacman.addActionListener(new ActionListener() {	//Drawing pacmans.
-
 			public void actionPerformed(ActionEvent e) {
 				if(fruitButton) fruitButton = false;//In case we drew fruits before
+				if(pacmanButton) pacmanButton = false;//pressing twice on the button will cancel the drawing
 				pacmanButton=true;
 			}
 		});
+		
 		fruit.addActionListener(new ActionListener() {	//Drawing fruits
-
 			public void actionPerformed(ActionEvent e) {
 				if (pacmanButton) pacmanButton = false;//in case we drew pacmans before
+				if(fruitButton) fruitButton = false; //pressing twice on the button will cancel the drawing
 				fruitButton=true;
 			}
 		});
@@ -156,7 +154,6 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		for(Fruit f: game.fList()) {
 			f.setPoint(new Point3D(map.coords2pixels(f.getPoint())));
 		}
-		repaint();
 	}
 	/**
 	 * Drawing the maps image, and painting the pacman and the fruits.
@@ -202,8 +199,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 			Pacman p = itP.next();
 			p.setPoint(new Point3D(p.getPoint().x()*xRat, p.getPoint().y()*yRat));
 			System.out.println(p.getPoint());
-
 		}
+		
 		while(itF.hasNext()) {
 			Fruit f = itF.next();
 			f.setPoint(new Point3D(f.getPoint().x()*xRat, f.getPoint().y()));
@@ -226,9 +223,10 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	public void componentShown(ComponentEvent arg0) {}
 
 	public static void main(String[] args) {
-		Point3D leftTop = new Point3D(32.105779,35.202331,0);
-		Point3D leftBottom = new Point3D(32.10166667,35.21222222,0);
-		MyFrame window = new MyFrame("Ariel1.png", leftTop, leftBottom);
+		MyFrame window = new MyFrame("Ariel1.png", new Point3D(32.10566,35.20238), new Point3D(32.10191,35.21237),new Point3D(32.10566,35.21241));
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setVisible(true);
+		window.pack();
 	}
 }
 
