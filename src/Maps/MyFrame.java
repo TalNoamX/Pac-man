@@ -269,16 +269,3 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		window.pack();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
