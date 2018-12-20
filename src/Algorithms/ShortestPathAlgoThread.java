@@ -22,8 +22,6 @@ public class ShortestPathAlgoThread extends Thread{
 			fullGamePath(pac, fru.getFruit()); //call the function
 			pac.getPath().remove(fru);
 			pathIter = pac.getPath().iterator();
-			
-
 		}
 		
 	}

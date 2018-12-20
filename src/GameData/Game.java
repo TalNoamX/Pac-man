@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import Geom.Point3D;
 
-
 public class Game {
 
 	private ArrayList<Pacman> pList;

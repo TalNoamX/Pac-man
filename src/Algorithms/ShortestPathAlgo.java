@@ -25,9 +25,7 @@ public class ShortestPathAlgo {
 			T.start();
 			}
 		}
-	
 
-	
 	private void pacmansPath() { //this function takes the fastest path and compare it with each pacmans path, then delete the fruits that this pacman do not eat, delete is in his own path.
 		this.getTheShortestPath(); //call the TheShortestPath function
 		for(int i=0;i<game.pList().size();i++) { // loop that runs on the pacmans
