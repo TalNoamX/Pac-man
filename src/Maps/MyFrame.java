@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import Algorithms.ShortestPathAlgo;
 import GameData.Fruit;
 import GameData.Game;
 import GameData.Pacman;
@@ -33,6 +35,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	private int fruitID;
 	private int pacmanID;
 	private Game game;
+	private ShortestPathAlgo SPA;
 	Dimension fSize; //The frame size
 	double heighty;
 	double widthx;
@@ -60,6 +63,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		this.addMouseListener(this); //adding mouselisteners
 		this.addComponentListener(this);
 		fSize = this.getSize();
+		pacmanID=0;
+		fruitID=0;
 
 	}
 
@@ -121,7 +126,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				}
 				if(fileChooser.getSelectedFile().getAbsolutePath().endsWith(".csv")) {
 					game.csvToGame(fileChooser.getSelectedFile().getAbsolutePath());
-					setPoints();//Changes all the points coords to mach the map.
+//					game2=new Game(game);
+					//setPoints2Pixel();//Changes all the points coords to mach the map.
 					repaint();
 				}
 				else JOptionPane.showMessageDialog(null, "Not a CSV file, Please try again");
@@ -130,7 +136,9 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		});
 		run.addActionListener(new ActionListener() {	//Starting The Game.
 			public void actionPerformed(ActionEvent e) {
-				
+				//setPixel2Points();
+				SPA = new ShortestPathAlgo(game,MyFrame.this);
+				SPA.Start();
 			}
 		});
 		saveKml.addActionListener(new ActionListener() {	//Saving The game Data as kml.
@@ -165,18 +173,37 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	/**
 	 * Setting the points we got from a csv file to match the map
 	 */
-	private void setPoints() {
+//	public synchronized void setPoints2Pixel() {
+//		for(Pacman p: game.pList()) {
+//		//	Pacman temp=new Pacman(p);
+//			p.setPoint(map.coords2pixels(p.getPoint()));
+//		}
+//		for(Fruit f: game.fList()) {
+//		//	Fruit temp=new Fruit(f);
+//			f.setPoint(map.coords2pixels(f.getPoint()));
+//		}
+//	}
+	public synchronized void setPixel2Points() {
 		for(Pacman p: game.pList()) {
-			p.setPoint(map.coords2pixels(p.getPoint()));
+			p.setPoint(map.pixels2coords(p.getPoint()));
 		}
 		for(Fruit f: game.fList()) {
-			f.setPoint(new Point3D(map.coords2pixels(f.getPoint())));
+			f.setPoint(map.pixels2coords(f.getPoint()));
 		}
+	}
+	public Point3D setPixelPoint(Point3D point) {
+		point=map.coords2pixels(point);
+		return point;
+	}
+	public Point3D setCoordsPoint(Point3D point) {
+			
+		point=map.pixels2coords(point);
+		return point;
 	}
 	/**
 	 * Drawing the maps image, and painting the pacman and the fruits.
 	 */
-	public void paint(Graphics g) {
+	public  void paint(Graphics g) {
 		g.drawImage(myImage, 8,53, this.getWidth()-16,this.getHeight()-61,this);//Drawing the map image
 		if(game.pList()!=null) {
 			Iterator<Pacman> itP=game.pList().iterator();// iterator for pacman
@@ -184,14 +211,17 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				Iterator<Fruit> itF=game.fList().iterator(); // iterator for fruit
 				while(itP.hasNext()) {//Drawing the Pcamans.
 					Pacman temp=itP.next();
-					int x = (int)(temp.getPoint().x()*(widthx/imgwidth));
-					int y = (int)(temp.getPoint().y()*(heighty/imgheight));
+					Point3D pixelPoint = map.coords2pixels(temp.getPoint());
+					
+					int x = (int)(pixelPoint.x()*(widthx/imgwidth));
+					int y = (int)(pixelPoint.y()*(heighty/imgheight));
 					g.drawImage(pacmanImg, x, y, pacmanImg.getWidth(), pacmanImg.getHeight(), this);
 				}
 				while(itF.hasNext()) {//Drawing the Fruits.
 					Fruit temp = itF.next();
-					int x = (int)(temp.getPoint().x()*(widthx/imgwidth));
-					int y = (int)(temp.getPoint().y()*(heighty/imgheight));
+					Point3D pixelPoint = map.coords2pixels(temp.getPoint());
+					int x = (int)(pixelPoint.x()*(widthx/imgwidth));
+					int y = (int)(pixelPoint.y()*(heighty/imgheight));
 					g.drawImage(FruitImg, x, y, FruitImg.getWidth(), FruitImg.getHeight(), this);
 				}
 			}
@@ -203,19 +233,22 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		int x=(int)(e.getX()/(widthx/imgwidth));
 		int y=(int)(e.getY()/(heighty/imgheight));
 		Point3D p=new Point3D(x, y);
+		
+		Point3D gpsPoint = map.pixels2coords(p);
+		
 		if(fruitButton) {
-			game.fList().add(new Fruit(++fruitID, p.x(), p.y(), p.z(), 1));//The default fruit weight is 1
+			game.fList().add(new Fruit(++fruitID, gpsPoint.x(), gpsPoint.y(), gpsPoint.z(), 1));//The default fruit weight is 1
 		}
 		if(pacmanButton) {
-			game.pList().add(new Pacman(++pacmanID, p.x(), p.y(), p.x(), 1, 1));//The default radius and speed is 1
+			game.pList().add(new Pacman(++pacmanID, gpsPoint.x(),gpsPoint.y(), gpsPoint.z(), 1, 1));//The default radius and speed is 1
 		}
 		repaint();
 	}
 	public void componentResized(ComponentEvent e) {
-		
+
 		widthx=e.getComponent().getWidth();
 		heighty=e.getComponent().getHeight();
-	
+
 		repaint();
 	}
 

@@ -55,8 +55,8 @@ public class Map {
 		Point3D vector = coords.vector3D(leftTop, point);// get the vector between the left top point to the point we enter
 		double leftRight = this.imgWidth/coords.distance3d(leftTop, rightTop); //the distance(x) between left top point and the right top point
 		double topBottom = this.imgHeight/coords.distance3d(rightTop, rightBottom); //the distance(y) between right top point and the right botom point
-		double y = vector.x()*(-1)*topBottom; // the point y value
-		double x = vector.y()*leftRight; // the x point value
+		int y = (int) Math.round(vector.x()*(-1)*topBottom); // the point y value
+		int x =(int) Math.round(vector.y()*leftRight); // the x point value
 		point=new Point3D(x,y); // the value of point in pixel
 		return point;
 	}

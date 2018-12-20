@@ -13,6 +13,11 @@ public class Game {
 
 	private ArrayList<Pacman> pList;
 	private ArrayList<Fruit> fList;
+	
+	public Game(Game game) {
+		pList=new ArrayList<Pacman>(game.pList());
+		fList=new ArrayList<Fruit>(game.fList());
+	}
 
 	public Game() {
 		pList = new ArrayList<Pacman>();

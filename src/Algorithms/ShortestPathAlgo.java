@@ -3,21 +3,24 @@ package Algorithms;
 import java.util.Iterator;
 import GameData.Game;
 import GameData.Pacman;
+import Maps.MyFrame;
 
 public class ShortestPathAlgo {
 	private Game game;
 	private Path shortestPath;
+	private MyFrame MF;
 
-	public ShortestPathAlgo(Game game) { //constructor
+	public ShortestPathAlgo(Game game,MyFrame MF) { //constructor
 		this.game=game;
 		this.pacmansPath(); // we want to split the run time of this algorithm so we call this function upon initialization.
+		this.MF=MF;
 	}
 	
 	public void Start() { //This function activate the shortest path. it take every pacman to it's fruit "physically".
 		Iterator<Pacman> pacIter=game.pList().iterator();
 		while(pacIter.hasNext()) { //run on the pacman arraylist
 			Pacman pac=pacIter.next();
-			Thread T = new ShortestPathAlgoThread(pac);
+			Thread T = new ShortestPathAlgoThread(pac, MF);
 			T.start();
 			}
 		}

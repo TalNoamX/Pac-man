@@ -12,6 +12,14 @@ public class Pacman {
 	private int ID;
 	private int score;
 	
+	public Pacman(Pacman Pacman) {
+		this.time=Pacman.time;
+		this.point=new Point3D(Pacman.point);
+		this.ID=Pacman.ID;
+		this.speed=Pacman.speed;
+		this.radius=Pacman.radius;
+		this.score=Pacman.score;
+	}
 	public Pacman(int id, double lat ,double lon , double alt, double sp ,double rad) {
 		time = new timeData();
 		point = new Point3D(lat,lon,alt);
