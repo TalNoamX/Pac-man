@@ -50,6 +50,7 @@ public class Map {
 		return myImage;
 	}
 	
+	
 	public Point3D coords2pixels(Point3D point) {//this function coonvert point coordinates to point pixels
 		MyCoords coords = new MyCoords();
 		Point3D vector = coords.vector3D(leftTop, point);// get the vector between the left top point to the point we enter

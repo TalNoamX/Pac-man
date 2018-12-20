@@ -10,6 +10,7 @@ public class ShortestPathAlgo {
 	private Path shortestPath;
 	private MyFrame MF;
 
+	
 	public ShortestPathAlgo(Game game,MyFrame MF) { //constructor
 		this.game=game;
 		this.pacmansPath(); // we want to split the run time of this algorithm so we call this function upon initialization.

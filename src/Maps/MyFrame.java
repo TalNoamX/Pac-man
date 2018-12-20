@@ -19,6 +19,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 
+	
 	private BufferedImage myImage;
 	private Map map;
 	private BufferedImage pacmanImg;

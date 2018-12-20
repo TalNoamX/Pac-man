@@ -2,7 +2,6 @@ package Algorithms;
 
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
-
 import Coords.MyCoords;
 import GameData.Fruit;
 import GameData.Pacman;
