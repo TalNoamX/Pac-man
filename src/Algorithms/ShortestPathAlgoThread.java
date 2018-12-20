@@ -1,6 +1,5 @@
 package Algorithms;
 
-import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 import Coords.MyCoords;
 import GameData.Fruit;
@@ -16,19 +15,16 @@ public class ShortestPathAlgoThread extends Thread{
 		this.MF=MF;
 	}
 	public void run() {
-		Iterator<PathNode> pathIter = pac.getPath().iterator();
-		while(pathIter.hasNext()) { //run on the path arraylist of every pacman
-			PathNode fru=pathIter.next();
-			fullGamePath(pac, fru.getFruit()); //call the function
-			pac.getPath().remove(fru);
-			pathIter = pac.getPath().iterator();
+		for(int Index=0;Index<pac.getPath().size();Index++) { //run on the path arraylist of every pacman
+			fullGamePath(pac, pac.getPath().get(Index).getFruit(),Index); //call the function
+			pac.getPath().get(Index).setTime();
 		}
 		
 	}
-	public synchronized void fullGamePath (Pacman pac, Fruit fru) { //this function take the path of every pacman and move the pucman to every fruit on uts path.
+	public synchronized void fullGamePath (Pacman pac, Fruit fru,int Index) { //this function take the path of every pacman and move the pucman to every fruit on uts path.
 		double x,y,z; 
 		MyCoords coords=new MyCoords();
-		double runTime=pac.getPath().get(0).getRunTime(); //runTime
+		double runTime=pac.getPath().get(Index).getRunTime(); //runTime
 		double dist=coords.distance3d(pac.getPoint(),fru.getPoint()); //distance between the pacman and each fruit.
 		Point3D midvec=coords.vector3D(pac.getPoint(),fru.getPoint()); //the vector between pacman and fruit.
 		if(runTime>0) { //check if the runTime is valid.  
@@ -50,6 +46,6 @@ public class ShortestPathAlgoThread extends Thread{
 			catch (InterruptedException e) {e.printStackTrace();}
 			}
 		}
-		pac.addScore(pac.getPath().get(0).getFruit().getWeight()); //the pacman arrived to the fruit and update its score
+		pac.addScore(pac.getPath().get(Index).getFruit().getWeight()); //the pacman arrived to the fruit and update its score
 	}
 }
