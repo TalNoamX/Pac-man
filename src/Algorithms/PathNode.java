@@ -2,6 +2,7 @@ package Algorithms;
 
 import GameData.Fruit;
 import GameData.timeData;
+
 /**
  * This class represent node for the path of every pacman.
  * It saves every detail the algorithm need to calculate the shortest path algorithm

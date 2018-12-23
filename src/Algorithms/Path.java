@@ -6,6 +6,7 @@ import Coords.MyCoords;
 import GameData.Fruit;
 import GameData.Pacman;
 import Geom.Point3D;
+
 /**
  * This class represent the full path for very pacman with the specific fruit it eats and how long it would take.
  * @author Tal

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 /**
  * This class represent Time. every pacman and fruit have the time of creation and time when got eaten.
  * @author Tal
