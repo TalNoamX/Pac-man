@@ -1,5 +1,5 @@
 package Maps;
-
+import java.awt.Color;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
@@ -9,6 +9,7 @@ import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import Algorithms.PathNode;
 import Algorithms.ShortestPathAlgo;
 import GameData.Fruit;
 import GameData.Game;
@@ -19,7 +20,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 
-	
+
 	private BufferedImage myImage;
 	private Map map;
 	private BufferedImage pacmanImg;
@@ -127,7 +128,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				}
 				if(fileChooser.getSelectedFile().getAbsolutePath().endsWith(".csv")) {
 					game.csvToGame(fileChooser.getSelectedFile().getAbsolutePath());
-//					game2=new Game(game);
+					//					game2=new Game(game);
 					//setPoints2Pixel();//Changes all the points coords to mach the map.
 					repaint();
 				}
@@ -174,16 +175,16 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	/**
 	 * Setting the points we got from a csv file to match the map
 	 */
-//	public synchronized void setPoints2Pixel() {
-//		for(Pacman p: game.pList()) {
-//		//	Pacman temp=new Pacman(p);
-//			p.setPoint(map.coords2pixels(p.getPoint()));
-//		}
-//		for(Fruit f: game.fList()) {
-//		//	Fruit temp=new Fruit(f);
-//			f.setPoint(map.coords2pixels(f.getPoint()));
-//		}
-//	}
+	//	public synchronized void setPoints2Pixel() {
+	//		for(Pacman p: game.pList()) {
+	//		//	Pacman temp=new Pacman(p);
+	//			p.setPoint(map.coords2pixels(p.getPoint()));
+	//		}
+	//		for(Fruit f: game.fList()) {
+	//		//	Fruit temp=new Fruit(f);
+	//			f.setPoint(map.coords2pixels(f.getPoint()));
+	//		}
+	//	}
 	public synchronized void setPixel2Points() {
 		for(Pacman p: game.pList()) {
 			p.setPoint(map.pixels2coords(p.getPoint()));
@@ -197,7 +198,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		return point;
 	}
 	public Point3D setCoordsPoint(Point3D point) {
-			
+
 		point=map.pixels2coords(point);
 		return point;
 	}
@@ -213,10 +214,12 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				while(itP.hasNext()) {//Drawing the Pcamans.
 					Pacman temp=itP.next();
 					Point3D pixelPoint = map.coords2pixels(temp.getPoint());
-					
 					int x = (int)(pixelPoint.x()*(widthx/imgwidth));
 					int y = (int)(pixelPoint.y()*(heighty/imgheight));
 					g.drawImage(pacmanImg, x, y, pacmanImg.getWidth(), pacmanImg.getHeight(), this);
+					
+
+				
 				}
 				while(itF.hasNext()) {//Drawing the Fruits.
 					Fruit temp = itF.next();
@@ -224,6 +227,32 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 					int x = (int)(pixelPoint.x()*(widthx/imgwidth));
 					int y = (int)(pixelPoint.y()*(heighty/imgheight));
 					g.drawImage(FruitImg, x, y, FruitImg.getWidth(), FruitImg.getHeight(), this);
+				}
+				for(int j=0;j<game.pList().size();j++) {
+					Pacman pac=game.pList().get(j);
+					
+					for(int i=0;i<pac.getPath().size();i++) {
+						if(i==0) {
+							Point3D pacpoint=map.coords2pixels(pac.getPath().getStartLocation());
+							Point3D frupoint=map.coords2pixels(pac.getPath().get(i).getFruit().getPoint());
+							int xpac = (int)(pacpoint.x()*(widthx/imgwidth));
+							int ypac = (int)(pacpoint.y()*(heighty/imgheight));
+							int xfruit = (int)(frupoint.x()*(widthx/imgwidth));
+							int yfruit = (int)(frupoint.y()*(heighty/imgheight));
+							g.setColor(Color.blue);
+							g.drawLine(xpac, ypac, xfruit, yfruit);
+						}
+						else {
+							Point3D prevfru=map.coords2pixels(pac.getPath().get(i-1).getFruit().getPoint());
+							Point3D curfru=map.coords2pixels(pac.getPath().get(i).getFruit().getPoint());
+							int xprev = (int)(prevfru.x()*(widthx/imgwidth));
+							int yprev = (int)(prevfru.y()*(heighty/imgheight));
+							int xcur = (int)(curfru.x()*(widthx/imgwidth));
+							int ycur = (int)(curfru.y()*(heighty/imgheight));
+							g.setColor(Color.blue);
+							g.drawLine(xprev, yprev, xcur,ycur);
+						}
+					}
 				}
 			}
 		}
@@ -234,9 +263,9 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		int x=(int)(e.getX()/(widthx/imgwidth));
 		int y=(int)(e.getY()/(heighty/imgheight));
 		Point3D p=new Point3D(x, y);
-		
+
 		Point3D gpsPoint = map.pixels2coords(p);
-		
+
 		if(fruitButton) {
 			game.fList().add(new Fruit(++fruitID, gpsPoint.x(), gpsPoint.y(), gpsPoint.z(), 1));//The default fruit weight is 1
 		}
