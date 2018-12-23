@@ -207,20 +207,18 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	 */
 	public  void paint(Graphics g) {
 		g.drawImage(myImage, 8,53, this.getWidth()-16,this.getHeight()-61,this);//Drawing the map image
-		if(game.pList()!=null) {
+		if(game.pList()!=null) {//if pacman list is not null enter
 			Iterator<Pacman> itP=game.pList().iterator();// iterator for pacman
 			if(game.fList()!=null) {
 				Iterator<Fruit> itF=game.fList().iterator(); // iterator for fruit
 				while(itP.hasNext()) {//Drawing the Pcamans.
 					Pacman temp=itP.next();
 					Point3D pixelPoint = map.coords2pixels(temp.getPoint());
-					int x = (int)(pixelPoint.x()*(widthx/imgwidth));
+					int x = (int)(pixelPoint.x()*(widthx/imgwidth));//convert the point to pixel depends on the img size
 					int y = (int)(pixelPoint.y()*(heighty/imgheight));
 					g.drawImage(pacmanImg, x, y, pacmanImg.getWidth(), pacmanImg.getHeight(), this);
-					
-
-				
 				}
+
 				while(itF.hasNext()) {//Drawing the Fruits.
 					Fruit temp = itF.next();
 					Point3D pixelPoint = map.coords2pixels(temp.getPoint());
@@ -228,29 +226,31 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 					int y = (int)(pixelPoint.y()*(heighty/imgheight));
 					g.drawImage(FruitImg, x, y, FruitImg.getWidth(), FruitImg.getHeight(), this);
 				}
-				for(int j=0;j<game.pList().size();j++) {
+				
+				for(int j=0;j<game.pList().size();j++) {//drawing the line path of the pacman 
 					Pacman pac=game.pList().get(j);
-					
-					for(int i=0;i<pac.getPath().size();i++) {
-						if(i==0) {
-							Point3D pacpoint=map.coords2pixels(pac.getPath().getStartLocation());
-							Point3D frupoint=map.coords2pixels(pac.getPath().get(i).getFruit().getPoint());
-							int xpac = (int)(pacpoint.x()*(widthx/imgwidth));
-							int ypac = (int)(pacpoint.y()*(heighty/imgheight));
-							int xfruit = (int)(frupoint.x()*(widthx/imgwidth));
-							int yfruit = (int)(frupoint.y()*(heighty/imgheight));
-							g.setColor(Color.blue);
-							g.drawLine(xpac, ypac, xfruit, yfruit);
-						}
-						else {
-							Point3D prevfru=map.coords2pixels(pac.getPath().get(i-1).getFruit().getPoint());
-							Point3D curfru=map.coords2pixels(pac.getPath().get(i).getFruit().getPoint());
-							int xprev = (int)(prevfru.x()*(widthx/imgwidth));
-							int yprev = (int)(prevfru.y()*(heighty/imgheight));
-							int xcur = (int)(curfru.x()*(widthx/imgwidth));
-							int ycur = (int)(curfru.y()*(heighty/imgheight));
-							g.setColor(Color.blue);
-							g.drawLine(xprev, yprev, xcur,ycur);
+					if(pac.getPath()!=null) {//if the path of the pacman is not null enter
+						for(int i=0;i<pac.getPath().size();i++) {
+							if(i==0) {//if i==0 than draw the line between the pacman and his first fruit
+								Point3D pacpoint=new Point3D(map.coords2pixels(pac.getPath().getStartLocation()));//get the pacman point and convert it to pixel
+								Point3D frupoint=new Point3D (map.coords2pixels(pac.getPath().get(i).getFruit().getPoint()));//the same with the first fruit
+								int xpac = (int)(pacpoint.x()*(widthx/imgwidth));//change the point depends on the image size
+								int ypac = (int)(pacpoint.y()*(heighty/imgheight));
+								int xfruit = (int)(frupoint.x()*(widthx/imgwidth));
+								int yfruit = (int)(frupoint.y()*(heighty/imgheight));
+								g.setColor(Color.blue);
+								g.drawLine(xpac, ypac, xfruit, yfruit);//draw the line
+							}
+							else {//else draw line between this fruit  and the previus one
+								Point3D prevfru=new Point3D (map.coords2pixels(pac.getPath().get(i-1).getFruit().getPoint()));
+								Point3D curfru=new Point3D (map.coords2pixels(pac.getPath().get(i).getFruit().getPoint()));
+								int xprev = (int)(prevfru.x()*(widthx/imgwidth));
+								int yprev = (int)(prevfru.y()*(heighty/imgheight));
+								int xcur = (int)(curfru.x()*(widthx/imgwidth));
+								int ycur = (int)(curfru.y()*(heighty/imgheight));
+								g.setColor(Color.blue);
+								g.drawLine(xprev, yprev, xcur,ycur);
+							}
 						}
 					}
 				}
@@ -259,17 +259,17 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		int x=(int)(e.getX()/(widthx/imgwidth));
+	public void mouseClicked(MouseEvent e) {//get pacman and fruit with mouse click
+		int x=(int)(e.getX()/(widthx/imgwidth));//derivative the coords with imag size so when we multiply it in paint it will be where it shuld be
 		int y=(int)(e.getY()/(heighty/imgheight));
 		Point3D p=new Point3D(x, y);
 
-		Point3D gpsPoint = map.pixels2coords(p);
+		Point3D gpsPoint = map.pixels2coords(p);//get the point as coords
 
-		if(fruitButton) {
+		if(fruitButton) {//if true than we add a fruit
 			game.fList().add(new Fruit(++fruitID, gpsPoint.x(), gpsPoint.y(), gpsPoint.z(), 1));//The default fruit weight is 1
 		}
-		if(pacmanButton) {
+		if(pacmanButton) {//if true than we add a pacman
 			game.pList().add(new Pacman(++pacmanID, gpsPoint.x(),gpsPoint.y(), gpsPoint.z(), 1, 1));//The default radius and speed is 1
 		}
 		repaint();
