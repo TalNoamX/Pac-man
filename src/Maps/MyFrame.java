@@ -141,6 +141,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				//setPixel2Points();
 				SPA = new ShortestPathAlgo(game,MyFrame.this);
 				SPA.Start();
+				
 			}
 		});
 		saveKml.addActionListener(new ActionListener() {	//Saving The game Data as kml.
@@ -280,6 +281,15 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		heighty=e.getComponent().getHeight();
 
 		repaint();
+	}
+	public void winner() {
+		Iterator<Pacman> itP=game.pList().iterator();
+		Pacman pac=new Pacman(game.pList().get(0));
+		while(itP.hasNext()) {
+			Pacman temp=itP.next();
+			JOptionPane.showMessageDialog(null, "Pacman "+pac.getID()+" with score of"+temp.getScore());
+		}
+		
 	}
 
 	//Unneeded functions:
