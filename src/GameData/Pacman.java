@@ -36,6 +36,12 @@ public class Pacman {
 	}
 	/**
 	 * A constructor for Strings parameters, taken from a CSV file.
+	 * @param id for every "pacman" in the filed.
+	 * @param lat is the x coordinate
+	 * @param lon is the y coordinate
+	 * @param alt is the z coordinate
+	 * @param sp
+	 * @param rad
 	 */
 	public Pacman(String id, String lat ,String lon , String alt, String sp ,String rad) {
 		time = new timeData();

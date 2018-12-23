@@ -29,6 +29,7 @@ public class Game {
 	}
 	/**
 	 * copy constructor
+	 * @param game copy from this object
 	 */
 	public Game(Game game) {
 		pList=new ArrayList<Pacman>(game.pList());
