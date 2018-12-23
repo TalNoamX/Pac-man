@@ -8,23 +8,29 @@ import java.io.IOException;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import Algorithms.PathNode;
 import Algorithms.ShortestPathAlgo;
+import File_format.Path2KML;
 import GameData.Fruit;
 import GameData.Game;
 import GameData.Pacman;
 import Geom.Point3D;
 
+/**
+ * A GUI class that presents the Game.
+ * @author Oranit
+ * @author Amitay
+ * @author Tal
+ *
+ */
 public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 
 	private static final long serialVersionUID = 1L;
-
-
-	private BufferedImage myImage;
-	private Map map;
-	private BufferedImage pacmanImg;
-	private BufferedImage FruitImg;
+	private BufferedImage myImage; //The image
+	private Map map; 
+	private BufferedImage pacmanImg; //An Icon for the pacman
+	private BufferedImage FruitImg;// An Icon for the Fruit
+	//Menu Items
 	private MenuItem loadCSV;
 	private MenuItem run;
 	private MenuItem saveKml;
@@ -34,15 +40,15 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	//will tell us whether to add a pacman or a fruit when pressed
 	private boolean fruitButton = false;
 	private boolean pacmanButton = false;
-	private int fruitID;
+	//ID for fruit and pamans in case the user is drawing it on the screen
+	private int fruitID; 
 	private int pacmanID;
 	private Game game;
 	private ShortestPathAlgo SPA;
-	Dimension fSize; //The frame size
-	double heighty;
-	double widthx;
-	int imgheight;
-	int imgwidth;
+	double height;
+	double width;
+	int imgheight;// The map image height
+	int imgwidth;// The map image width
 
 	/**
 	 * constructor 
@@ -64,7 +70,6 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		setPacFruImg();//setting the image of the pacman and the fruit
 		this.addMouseListener(this); //adding mouselisteners
 		this.addComponentListener(this);
-		fSize = this.getSize();
 		pacmanID=0;
 		fruitID=0;
 
@@ -113,6 +118,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Setting all the needed ACtionListeners For the menuItem.
 	 */
@@ -128,8 +134,6 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				}
 				if(fileChooser.getSelectedFile().getAbsolutePath().endsWith(".csv")) {
 					game.csvToGame(fileChooser.getSelectedFile().getAbsolutePath());
-					//					game2=new Game(game);
-					//setPoints2Pixel();//Changes all the points coords to mach the map.
 					repaint();
 				}
 				else JOptionPane.showMessageDialog(null, "Not a CSV file, Please try again");
@@ -138,15 +142,28 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		});
 		run.addActionListener(new ActionListener() {	//Starting The Game.
 			public void actionPerformed(ActionEvent e) {
-				//setPixel2Points();
+				if(game.pList().size()==0||game.fList().size()==0) {
+					JOptionPane.showMessageDialog(null, "The game is null. try again");
+					return;
+				}
 				SPA = new ShortestPathAlgo(game,MyFrame.this);
 				SPA.Start();
-				
 			}
 		});
 		saveKml.addActionListener(new ActionListener() {	//Saving The game Data as kml.
 			public void actionPerformed(ActionEvent e) {
-
+				if(game.pList().size()==0) {
+					JOptionPane.showMessageDialog(null, "The game is null. try again");
+					return;
+				}
+				try {
+					Path2KML p2k = new Path2KML(game);
+					String name = JOptionPane.showInputDialog("Enter a name for the KML", null);
+					p2k.kmlWriter(name);
+				}
+				catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "The game is null or not finished yet. try again");
+				}
 			}
 		});
 		pacman.addActionListener(new ActionListener() {	//Drawing pacmans.
@@ -174,36 +191,6 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	}
 
 	/**
-	 * Setting the points we got from a csv file to match the map
-	 */
-	//	public synchronized void setPoints2Pixel() {
-	//		for(Pacman p: game.pList()) {
-	//		//	Pacman temp=new Pacman(p);
-	//			p.setPoint(map.coords2pixels(p.getPoint()));
-	//		}
-	//		for(Fruit f: game.fList()) {
-	//		//	Fruit temp=new Fruit(f);
-	//			f.setPoint(map.coords2pixels(f.getPoint()));
-	//		}
-	//	}
-	public synchronized void setPixel2Points() {
-		for(Pacman p: game.pList()) {
-			p.setPoint(map.pixels2coords(p.getPoint()));
-		}
-		for(Fruit f: game.fList()) {
-			f.setPoint(map.pixels2coords(f.getPoint()));
-		}
-	}
-	public Point3D setPixelPoint(Point3D point) {
-		point=map.coords2pixels(point);
-		return point;
-	}
-	public Point3D setCoordsPoint(Point3D point) {
-
-		point=map.pixels2coords(point);
-		return point;
-	}
-	/**
 	 * Drawing the maps image, and painting the pacman and the fruits.
 	 */
 	public  void paint(Graphics g) {
@@ -215,19 +202,19 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 				while(itP.hasNext()) {//Drawing the Pcamans.
 					Pacman temp=itP.next();
 					Point3D pixelPoint = map.coords2pixels(temp.getPoint());
-					int x = (int)(pixelPoint.x()*(widthx/imgwidth));//convert the point to pixel depends on the img size
-					int y = (int)(pixelPoint.y()*(heighty/imgheight));
+					int x = (int)(pixelPoint.x()*(width/imgwidth));//convert the point to pixel depends on the img size
+					int y = (int)(pixelPoint.y()*(height/imgheight));
 					g.drawImage(pacmanImg, x, y, pacmanImg.getWidth(), pacmanImg.getHeight(), this);
 				}
 
 				while(itF.hasNext()) {//Drawing the Fruits.
 					Fruit temp = itF.next();
 					Point3D pixelPoint = map.coords2pixels(temp.getPoint());
-					int x = (int)(pixelPoint.x()*(widthx/imgwidth));
-					int y = (int)(pixelPoint.y()*(heighty/imgheight));
+					int x = (int)(pixelPoint.x()*(width/imgwidth));
+					int y = (int)(pixelPoint.y()*(height/imgheight));
 					g.drawImage(FruitImg, x, y, FruitImg.getWidth(), FruitImg.getHeight(), this);
 				}
-				
+
 				for(int j=0;j<game.pList().size();j++) {//drawing the line path of the pacman 
 					Pacman pac=game.pList().get(j);
 					if(pac.getPath()!=null) {//if the path of the pacman is not null enter
@@ -235,20 +222,20 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 							if(i==0) {//if i==0 than draw the line between the pacman and his first fruit
 								Point3D pacpoint=new Point3D(map.coords2pixels(pac.getPath().getStartLocation()));//get the pacman point and convert it to pixel
 								Point3D frupoint=new Point3D (map.coords2pixels(pac.getPath().get(i).getFruit().getPoint()));//the same with the first fruit
-								int xpac = (int)(pacpoint.x()*(widthx/imgwidth));//change the point depends on the image size
-								int ypac = (int)(pacpoint.y()*(heighty/imgheight));
-								int xfruit = (int)(frupoint.x()*(widthx/imgwidth));
-								int yfruit = (int)(frupoint.y()*(heighty/imgheight));
+								int xpac = (int)(pacpoint.x()*(width/imgwidth));//change the point depends on the image size
+								int ypac = (int)(pacpoint.y()*(height/imgheight));
+								int xfruit = (int)(frupoint.x()*(width/imgwidth));
+								int yfruit = (int)(frupoint.y()*(height/imgheight));
 								g.setColor(Color.blue);
 								g.drawLine(xpac, ypac, xfruit, yfruit);//draw the line
 							}
 							else {//else draw line between this fruit  and the previus one
 								Point3D prevfru=new Point3D (map.coords2pixels(pac.getPath().get(i-1).getFruit().getPoint()));
 								Point3D curfru=new Point3D (map.coords2pixels(pac.getPath().get(i).getFruit().getPoint()));
-								int xprev = (int)(prevfru.x()*(widthx/imgwidth));
-								int yprev = (int)(prevfru.y()*(heighty/imgheight));
-								int xcur = (int)(curfru.x()*(widthx/imgwidth));
-								int ycur = (int)(curfru.y()*(heighty/imgheight));
+								int xprev = (int)(prevfru.x()*(width/imgwidth));
+								int yprev = (int)(prevfru.y()*(height/imgheight));
+								int xcur = (int)(curfru.x()*(width/imgwidth));
+								int ycur = (int)(curfru.y()*(height/imgheight));
 								g.setColor(Color.blue);
 								g.drawLine(xprev, yprev, xcur,ycur);
 							}
@@ -261,8 +248,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {//get pacman and fruit with mouse click
-		int x=(int)(e.getX()/(widthx/imgwidth));//derivative the coords with imag size so when we multiply it in paint it will be where it shuld be
-		int y=(int)(e.getY()/(heighty/imgheight));
+		int x=(int)(e.getX()/(width/imgwidth));//derivative the coords with imag size so when we multiply it in paint it will be where it shuld be
+		int y=(int)(e.getY()/(height/imgheight));
 		Point3D p=new Point3D(x, y);
 
 		Point3D gpsPoint = map.pixels2coords(p);//get the point as coords
@@ -277,26 +264,28 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	}
 	public void componentResized(ComponentEvent e) {
 
-		widthx=e.getComponent().getWidth();
-		heighty=e.getComponent().getHeight();
+		width=e.getComponent().getWidth();
+		height=e.getComponent().getHeight();
 
 		repaint();
 	}
-	public void winner() {
-		Iterator<Pacman> itP=game.pList().iterator();
-		StringBuilder score = new StringBuilder();
+
+	/**
+	 * Prints the results of the game, the algorithm already know who's winning so it prints in the middle of the game.
+	 */
+	public void results() {
+		Iterator<Pacman> itP=game.pList().iterator();//An iterator for the pacmans.
+		StringBuilder score = new StringBuilder();//StringBuilder that will present the score.
 		while(itP.hasNext()) {
 			Pacman temp=itP.next();
-			Iterator<PathNode> itnode=temp.getPath().iterator();
-			while(itnode.hasNext()) {
-				PathNode node=itnode.next();
+			Iterator<PathNode> itNode=temp.getPath().iterator();// An iterator for each pacman's pathNode.
+			while(itNode.hasNext()) {
+				PathNode node=itNode.next();
 				temp.addScore(node.getFruit().getWeight());
 			}
-			
-			score.append("Pacman "+temp.getID()+" score"+" "+temp.getScore()+"\n");
-			
+			score.append("Pacman "+temp.getID()+" score"+" "+temp.getScore()+"\n");//appending the score of each pacmans
 		}
-		JOptionPane.showMessageDialog(null, score.toString());
+		JOptionPane.showMessageDialog(null, score.toString());//showing the score on the screen.
 	}
 
 	//Unneeded functions:

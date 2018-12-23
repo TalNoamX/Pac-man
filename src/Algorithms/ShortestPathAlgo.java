@@ -24,7 +24,7 @@ public class ShortestPathAlgo {
 			Thread T = new ShortestPathAlgoThread(pac, MF);
 			T.start();
 			}
-		MF.winner();
+		MF.results();
 		}
 
 	private void pacmansPath() { //this function takes the fastest path and compare it with each pacmans path, then delete the fruits that this pacman do not eat, delete is in his own path.

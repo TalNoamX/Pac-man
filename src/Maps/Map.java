@@ -8,19 +8,21 @@ import Coords.MyCoords;
 import Geom.Point3D;
 
 public class Map {
-	
+
 	private BufferedImage myImage;
 	private Point3D leftTop;
 	private Point3D rightBottom;
 	private Point3D rightTop;
 	private int imgWidth;
 	private int imgHeight;
-	
 
-	
-	
-
-
+	/**
+	 *  Constructor
+	 * @param path the images path
+	 * @param leftTop the left top corner of the map in coords.
+	 * @param rightBottom the righ tBottom corner of the map in coords.
+	 * @param rightTop the right Top corner of the map in coords.
+	 */
 	public Map(String path, Point3D leftTop, Point3D rightBottom, Point3D rightTop) {
 		this.leftTop=leftTop;
 		this.rightBottom=rightBottom;
@@ -29,14 +31,27 @@ public class Map {
 		imgHeight=myImage.getHeight();//get this pic height
 		imgWidth = myImage.getWidth(); // get this pic width
 	}
-	
-	public void setHeight(int height) {//get new height
+
+	/**
+	 * Get new height
+	 * @param height the map height
+	 */
+	public void setHeight(int height) {
 		imgHeight=height;
 	}
+
+	/**
+	 * Get new width
+	 * @param width the map width
+	 */
 	public void setWidth(int width) {
-		imgWidth=width;//get new width
+		imgWidth=width;
 	}
-	private void setMyImage(String path) {//this function read a img that will be the map
+	/**
+	 * This function reads an image that will be the map
+	 * @param path the files path
+	 */
+	private void setMyImage(String path) {
 		try {
 			File file = new File(path);//new file object with the url of the image
 			myImage = ImageIO.read(file);//read the image
@@ -45,12 +60,21 @@ public class Map {
 			e.printStackTrace();
 		}
 	}
-	
-	public BufferedImage getmyImage() {// get the map image
+
+	/**
+	 * Get the map image
+	 * @return the image
+	 */
+	public BufferedImage getmyImage() {
 		return myImage;
 	}
-	
-	public Point3D coords2pixels(Point3D point) {//this function coonvert point coordinates to point pixels
+
+	/**
+	 * This function coonvert point coordinates to point pixels
+	 * @param point the point in coords
+	 * @return the point in pixles
+	 */
+	public Point3D coords2pixels(Point3D point) {
 		MyCoords coords = new MyCoords();
 		Point3D vector = coords.vector3D(leftTop, point);// get the vector between the left top point to the point we enter
 		double leftRight = this.imgWidth/coords.distance3d(leftTop, rightTop); //the distance(x) between left top point and the right top point
@@ -60,8 +84,13 @@ public class Map {
 		point=new Point3D(x,y); // the value of point in pixel
 		return point;
 	}
-	
-	public Point3D pixels2coords(Point3D point) {//this function transform a pixel point to coordinate point
+
+	/**
+	 * This function transform a pixel point to coordinate point
+	 * @param point the point in pixles
+	 * @return the point in coords
+	 */
+	public Point3D pixels2coords(Point3D point) {
 		MyCoords coords = new MyCoords();
 		double leftRight = this.imgWidth/coords.distance3d(leftTop, rightTop);
 		double topBottom = this.imgHeight/coords.distance3d(rightTop, rightBottom);
@@ -71,14 +100,28 @@ public class Map {
 		point=coords.add(leftTop, point); // transform the start point by point
 		return point;
 	}
-	public double distBetPixels(Point3D p1,Point3D p2) {//this function caculate the distance between two pixels point(in meters)
+
+	/**
+	 *  
+	 * @param p1 point in pixles
+	 * @param p2 point in pixles
+	 * @return the distance between two pixels point(in meters)
+	 */
+	public double distBetPixels(Point3D p1,Point3D p2) {
 		p1=pixels2coords(p1);//convert p1 to gps point
 		p2=pixels2coords(p2);//convaertp2 to gps point
 		MyCoords coords=new MyCoords();
 		double distance= coords.distance3d(p1, p2);// get the distance in meters of the gps point
 		return distance;
 	}
-	public double AzimuthBetPixels(Point3D p1,Point3D p2) {// this function calculate the azimuth between two pixels points on the map
+
+	/**
+	 *  
+	 * @param p1 point in pixles
+	 * @param p2 point in pixles
+	 * @return the azimuth between two pixels points on the map
+	 */
+	public double AzimuthBetPixels(Point3D p1,Point3D p2) { 
 		p1=pixels2coords(p1); //converts p1 to gps point
 		p2=pixels2coords(p2); //converts p2 to gps point 
 		MyCoords coords=new MyCoords();
@@ -88,5 +131,3 @@ public class Map {
 	}
 }
 
-
-//		Point3D leftBottom = new Point3D(32.10187,35.20239);// left botom coordinate of the map

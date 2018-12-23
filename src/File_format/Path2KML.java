@@ -3,19 +3,18 @@ package File_format;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Iterator;
-
-import GameData.Fruit;
-import GameData.Game;
-import GameData.Pacman;
+import Algorithms.PathNode;
+import GameData.*;
 
 
-
+/**
+ * A class that turns the results of a game to KML. 
+ * On GoogleEarth it will display the pacmans and the fruits, and once the fruits are eaten it will paint "V" sign on them.
+ * @author Oranit
+ *
+ */
 public class Path2KML {
-	public static void main(String[] args) {
-		Game game = new Game();
-		 
-	}
+
 	double timeStamp;
 	Game game;
 
@@ -37,82 +36,83 @@ public class Path2KML {
 			e.printStackTrace();
 			return false;
 		}
-		// This is a constant pattern to begin each kml file
+		//Prints the constant start of the KML, with the icons for the lion, strawberry and a "V" sign that said the fruit was eaten. 
 		StringBuilder sb0 = new StringBuilder();
 		sb0.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + 
-				"<kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document><Style "
-				+ "id=\"pacman\"><IconStyle><Icon><href>http://icons.iconarchive.com/icons/mazenl77/I-like-buttons-3a/32/Cute-Ball-Games-icon.png</href></Icon><hotSpot x=\"32\" y=\"1\" "
-				+ "xunits=\"pixels\" yunits=\"pixels\"/></IconStyle></Style><Style "
-				+ "id=\"fruit\"><IconStyle><Icon><http://icons.iconarchive.com/icons/ergosign/free-spring/32/strawberry-icon.png</href></Icon><hotSpot "
-				+ "x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/></IconStyle></Style><Style");
-		sb0.append("\"<Style id=\"line\">\"<LineStyle>\r\n" + 
-				"        <color>501408FF</color>\r\n" + 
-				"        <width>4</width>\r\n" + 
-				"      </LineStyle>\r\n" + 
-				"      <PolyStyle>\r\n" + 
-				"        <color>501408FF</color>\r\n" + 
-				"      </PolyStyle>\r\n" + 
-				"    </Style>");
+				"<kml xmlns=\"http://www.opengis.net/kml/2.2\"><Document>\r\n" + 
+				"<Style id=\"lion\"><IconStyle><Icon><href>http://icons.iconarchive.com/icons/google/noto-emoji-animals-nature/72/22222-lion-face-icon.png</href></Icon>\r\n" + 
+				" <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/></IconStyle></Style>\r\n" + 
+				" <Style id=\"fruit\"><IconStyle><Icon><href>http://icons.iconarchive.com/icons/martin-berube/food/32/strawberry-icon.png</href></Icon>\r\n" + 
+				" <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/></IconStyle></Style>\r\n" + 
+				" <Style id=\"done\"><IconStyle><Icon><href>http://icons.iconarchive.com/icons/saki/snowish/96/Ok-icon.png</href></Icon>\r\n" + 
+				" <hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/></IconStyle></Style> ");
 		pw.write(sb0.toString());
-		
-		for(Pacman p: game.pList()){
+		for(Pacman p: game.pList()){//Prints all the pacmans at their beginning point, with their id, speed, radius, and time of craetion.
+			String time = p.GetTime().replaceFirst(" ", "T")+"Z";
 			StringBuilder sbPacman = new StringBuilder();
-			sbPacman.append("<Placemark>\r\n" + 
+			sbPacman.append("<Placemark>\r\n" +
 					"<description><![CDATA[id: <b>"+ p.getID()+"</b><br/>speed: <b>"+p.getSpeed()+"</b><br/>radius: <b>"+p.getRadius()+"</b>]]></description><TimeStamp>\r\n" + 
-					"<when>"+p.GetTime()+"</when>\r\n" + 
+					"<when>"+time+"</when>\r\n" + 
 					"</TimeStamp>\r\n" + 
-					"<styleUrl>#pacman</styleUrl>\r\n" + 
+					"<styleUrl>#lion</styleUrl>\r\n" + 
 					"<Point>\r\n" + 
-					"<coordinates>"+p.getPoint().x()+", "+p.getPoint().y()+"</coordinates>\r\n" +
+					"<coordinates>"+p.getPoint().y()+", "+p.getPoint().x()+"</coordinates>\r\n" +
 					"</Point>\r\n" + 
 					"</Placemark>");
 			pw.write(sbPacman.toString());
 		}
-		for(Pacman p: game.pList()) {
+		for(Fruit f: game.fList()) {//Prints all the fruits at their beginning point with their weight, Id and time of creation.
+			StringBuilder sbFruit = new StringBuilder();
+			String time = f.GetTime().replaceFirst(" ", "T")+"Z";
+			sbFruit.append("<Placemark>\r\n" + 
+					"<description><![CDATA[id: <b>"+ f.getID()+"</b><br/>weight: <b>"+f.getWeight()+"</b>]]></description><TimeStamp>\r\n" + 
+					"<when>"+time+"</when>\r\n" + 
+					"</TimeStamp>\r\n" + 
+					"<styleUrl>#fruit</styleUrl>\r\n" + 
+					"<Point>\r\n" + 
+					"<coordinates>"+f.getPoint().y()+", "+f.getPoint().x()+"</coordinates>\r\n" +
+					"</Point>\r\n" + 
+					"</Placemark>");
+			pw.write(sbFruit.toString());
+		}
+		for(Pacman p: game.pList()) {//For each pacman, prints the fruits he will eat,prints the "V" sign, than prints the pacman in it's new location
 			StringBuilder sbFruitLocation = new StringBuilder();
-			for(int i = 0; i<p.getPath().size();i++) {
+			for(PathNode pNode: p.getPath()) {
 				StringBuilder sbFruit = new StringBuilder();
-				sbFruitLocation.append(p.getPath().get(i).getFruit().getPoint().x()+", "+p.getPath().get(i).getFruit().getPoint().y()+"\n");
-				sbFruit.append("<Placemark>\r\n" + 
-						"<description><![CDATA[id: <b>"+p.getPath().get(i).getFruitID()+"</b><br/>weight: <b>"+p.getPath().get(i).getFruit().getWeight()+"</b>]]></description><TimeStamp>"+
-						"<when>"+p.getPath().get(i).GetTime()+"</when>\r\n" + 
+				String time = pNode.GetTime().replaceFirst(" ", "T")+"Z";
+				sbFruitLocation.append(pNode.getFruit().getPoint().y()+", "+pNode.getFruit().getPoint().x()+"\n");
+				sbFruit.append("<Placemark>\r\n" + //prints the fruit.
+						"<description><![CDATA[id: <b>"+pNode.getFruitID()+"</b><br/>weight: <b>"+pNode.getFruit().getWeight()+"</b>]]></description><TimeStamp>"+
+						"<when>"+pNode.GetTime()+"</when>\r\n" + 
 						"</TimeStamp>\r\n" + 
 						"<styleUrl>#fruit</styleUrl>\r\n" + 
 						"<Point>\r\n" + 
-						"<coordinates>"+p.getPath().get(i).getFruit().getPoint().x()+", "+p.getPath().get(i).getFruit().getPoint().y()+"</coordinates>\r\n" +
+						"<coordinates>"+pNode.getFruit().getPoint().y()+", "+pNode.getFruit().getPoint().x()+"</coordinates>\r\n" +
+						"</Point>\r\n" + 
+						"</Placemark>");
+				sbFruit.append("<Placemark>"+//prints the "V" sign.
+						"<name>done</name>" +
+						"<description><![CDATA[id: <b>"+pNode.getFruitID()+"</b><br/>weight: <b>"+pNode.getFruit().getWeight()+"</b>]]></description><TimeStamp>\r\n" + 
+						"<when>"+pNode.GetTime()+"</when>\r\n" + 
+						"</TimeStamp>\r\n" + 
+						"<styleUrl>#done</styleUrl>\r\n" + 
+						"<Point>\r\n" + 
+						"<coordinates>"+pNode.getFruit().getPoint().y()+", "+pNode.getFruit().getPoint().x()+"</coordinates>\r\n" + 
+						"</Point>\r\n" + 
+						"</Placemark>");
+				sbFruit.append("<Placemark>\r\n" +//prints the pacman.
+						"<description><![CDATA[id: <b>"+ p.getID()+"</b><br/>speed: <b>"+p.getSpeed()+"</b><br/>radius: <b>"+p.getRadius()+"</b>]]></description><TimeStamp>\r\n" + 
+						"<when>"+time+"</when>\r\n" + 
+						"</TimeStamp>\r\n" + 
+						"<styleUrl>#lion</styleUrl>\r\n" + 
+						"<Point>\r\n" + 
+						"<coordinates>"+pNode.getFruit().getPoint().y()+", "+pNode.getFruit().getPoint().x()+"</coordinates>\r\n" +
 						"</Point>\r\n" + 
 						"</Placemark>");
 				pw.write(sbFruit.toString());
 			}
-			StringBuilder sbLine = new StringBuilder();
-			sbLine.append("</Placemark> <Placemark>\r\n" + 
-					"      <styleUrl>#line</styleUrl>\r\n" + 
-					"      <LineString>\r\n" + 
-					"        <extrude>1</extrude>\r\n" + 
-					"        <tessellate>1</tessellate>\r\n" + 
-					"        <coordinates>\n");
-			pw.write(sbLine.toString());
-			pw.write(sbFruitLocation.toString());
-			sbLine = new StringBuilder();
-			sbLine.append("      </coordinates>\r\n" + 
-					"      </LineString>\r\n" + 
-					"    </Placemark>\n");
-			pw.write(sbLine.toString());
-			for(Pacman p1: game.pList()){
-				StringBuilder sbPacman = new StringBuilder();
-				sbPacman.append("<Placemark>\r\n" + 
-						"<description><![CDATA[id: <b>"+ p1.getID()+"</b><br/>speed: <b>"+p1.getSpeed()+"</b><br/>radius: <b>"+p1.getRadius()+"</b>]]></description><TimeStamp>\r\n" + 
-						"<when>"+/*p.getPath().get(i).GetTime()*/"</when>\r\n" + //needs to be fixed
-						"</TimeStamp>\r\n" + 
-						"<styleUrl>#pacman</styleUrl>\r\n" + 
-						"<Point>\r\n" + 
-						"<coordinates>"+p1.getPoint().x()+", "+p1.getPoint().y()+"</coordinates>\r\n" +
-						"</Point>\r\n" + 
-						"</Placemark>");
-				pw.write(sbPacman.toString());
-			}
 		}	
-		// This is a constante pattern to end each kml file
+		// This is a constant pattern to end each kml file
 		StringBuilder sb2 = new StringBuilder();
 		sb2.append("</Document></kml>");
 		pw.write(sb2.toString());

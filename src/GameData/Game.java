@@ -54,19 +54,19 @@ public class Game {
 	 */
 	public void csvToGame(String path) {
 		String csvFile = path;
-		String line = "";
-		String type="";
+		String line = ""; //saves each line
+		String type=""; // will tell us if it's a packman or a fruit
 		int row = 1;
 
 		try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
 			while ((line = br.readLine()) != null) {
 				String[] data = line.split(",");
-				if(row>1) {
-					type = data[0];
-					if(type.equals("P")) {
+				if(row>1) {//first line is headlines
+					type = data[0];// determine the type
+					if(type.equals("P")) {//adding packman
 						this.pList.add(new Pacman (data[1],data[2],data[3],data[4],data[5],data[6]));
 					}
-					else if (type.equals("F")) {
+					else if (type.equals("F")) {//adding Fruits
 						this.fList.add(new Fruit(data[1],data[2],data[3],data[4],data[5]));
 					}
 				}
@@ -93,15 +93,15 @@ public class Game {
 			e.printStackTrace();
 		}
 		StringBuilder sb0 = new StringBuilder();
-		sb0.append("Type, id, Lat, Lon, Alt, speed\\weight, Radius,"+ pList.size()+","+fList.size()+"\n");
+		sb0.append("Type, id, Lat, Lon, Alt, speed\\weight, Radius,"+ pList.size()+","+fList.size()+"\n");//printing headlines
 		pw.write(sb0.toString());
 		StringBuilder sb1 = new StringBuilder();
-		for(Pacman p: pList) {
+		for(Pacman p: pList) {//adding all the pacmans
 			sb1.append("P,"+p.getID()+","+((Point3D) p.getPoint()).x()+","+((Point3D) p.getPoint()).y()+","+((Point3D) p.getPoint()).z()+","+p.getSpeed()+","+p.getRadius()+"\n");
 		}
 		pw.write(sb1.toString());
 		StringBuilder sb2 = new StringBuilder();
-		for(Fruit f:fList) {
+		for(Fruit f:fList) {//adding all the fruits
 			sb2.append("P,"+f.getID()+","+((Point3D) f.getPoint()).x()+","+((Point3D) f.getPoint()).y()+","+((Point3D) f.getPoint()).z()+","+f.getWeight()+","+"\n");
 		}
 		pw.write(sb2.toString());
