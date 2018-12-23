@@ -282,7 +282,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 
 		repaint();
 	}
-	public void winner() {
+	public void winner() {//function that caculate the score of each packman
 		Iterator<Pacman> itP=game.pList().iterator();
 		StringBuilder score = new StringBuilder();
 		while(itP.hasNext()) {
@@ -290,7 +290,7 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 			Iterator<PathNode> itnode=temp.getPath().iterator();
 			while(itnode.hasNext()) {
 				PathNode node=itnode.next();
-				temp.addScore(node.getFruit().getWeight());
+				temp.addScore(node.getFruit().getWeight());//add fruit weight to the pacman score
 			}
 			
 			score.append("Pacman "+temp.getID()+" score"+" "+temp.getScore()+"\n");

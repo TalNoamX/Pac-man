@@ -49,3 +49,9 @@ For this, we used file chooser and the code from this tutorial: https://www.yout
 on the map,  all the fruits and pacmans, In accordance with their actual coords. 
 By clicking "Start" the game will start. 
 By clicking "save KML" this will save the results of the game as a kml file that can be displayed on google earth.
+
+SortestPathAlgoThread:
+a class that exist in Algorithms packege that extends the Thread class in java.
+this class job is to move all the pacmans in the map to thaere fruits by calcutating
+there next step withe the vector3D function in mycoords class, until the packman get to his destnation.
+this class uses threds so all the packmans in the map moving in the same time

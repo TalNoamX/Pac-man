@@ -7,13 +7,29 @@ import GameData.Pacman;
 import Geom.Point3D;
 import Maps.MyFrame;
 
+/**
+ * this class extend Thread class, and use to move the pacmans on the map all the way to their fruits  
+ * @author amitai
+ * @author oranit
+ * @author tal
+ * 
+ */
 public class ShortestPathAlgoThread extends Thread{
 	private Pacman pac;
 	private MyFrame MF;
+	/**
+	 * this constructor create a pacman and MyFrame objects for the functions of the class
+	 * @param pac the pacman object the class will work with
+	 * @param MF a MyFrame object for the repaint function
+	 */
+	
 	public ShortestPathAlgoThread (Pacman pac, MyFrame MF) {
 		this.pac=pac;
 		this.MF=MF;
 	}
+	/**
+	 * a function that move evry pacman to all of his fruits in his path
+	 */
 	public void run() {
 		for(int Index=0;Index<pac.getPath().size();Index++) { //run on the path arraylist of every pacman
 			fullGamePath(pac, pac.getPath().get(Index).getFruit(),Index); //call the function
@@ -21,6 +37,13 @@ public class ShortestPathAlgoThread extends Thread{
 		}
 		
 	}
+	
+	/**
+	 * function that move the pacman all the way to his fruit
+	 * @param pac the pacman that move to the fruit
+	 * @param fru the goal of the pacman
+	 * @param Index use to get the run time of the fruit from the pacman path
+	 */
 	public synchronized void fullGamePath (Pacman pac, Fruit fru,int Index) { //this function take the path of every pacman and move the pucman to every fruit on uts path.
 		double x,y,z; 
 		MyCoords coords=new MyCoords();
