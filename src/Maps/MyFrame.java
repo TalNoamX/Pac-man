@@ -248,15 +248,15 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	public void mouseClicked(MouseEvent e) {//get pacman and fruit with mouse click
 		int x=(int)(e.getX()/(width/imgwidth));//derivative the coords with imag size so when we multiply it in paint it will be where it shuld be
 		int y=(int)(e.getY()/(height/imgheight));
-		Point3D p=new Point3D(x, y);
-
+		Point3D p = new Point3D(x, y);
 		Point3D gpsPoint = map.pixels2coords(p);//get the point as coords
-
 		if(fruitButton) {//if true than we add a fruit
-			game.fList().add(new Fruit(++fruitID, gpsPoint.x(), gpsPoint.y(), gpsPoint.z(), 1));//The default fruit weight is 1
+			Fruit f = new Fruit(++fruitID, gpsPoint.x(), gpsPoint.y(), gpsPoint.z(), 1);
+			game.fList().add(f);//The default fruit weight is 1
 		}
 		if(pacmanButton) {//if true than we add a pacman
-			game.pList().add(new Pacman(++pacmanID, gpsPoint.x(),gpsPoint.y(), gpsPoint.z(), 1, 1));//The default radius and speed is 1
+			Pacman pacman = new Pacman(++pacmanID, gpsPoint.x(),gpsPoint.y(), gpsPoint.z(), 1, 1);
+			game.pList().add(pacman);//The default radius and speed is 1
 		}
 		repaint();
 	}
@@ -280,8 +280,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 			while(itNode.hasNext()) {
 				PathNode node=itNode.next();
 				temp.addScore(node.getFruit().getWeight());
-				score.append("Pacman "+temp.getID()+" score"+" "+temp.getScore()+"\n");//appending the score of each pacmans
 			}
+			score.append("Pacman "+temp.getID()+" score"+" "+temp.getScore()+"\n");//appending the score of each pacmans
 		}
 		JOptionPane.showMessageDialog(null, score.toString());//showing the score on the screen.
 

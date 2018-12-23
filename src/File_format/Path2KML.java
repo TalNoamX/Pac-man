@@ -56,7 +56,7 @@ public class Path2KML {
 					"</TimeStamp>\r\n" + 
 					"<styleUrl>#lion</styleUrl>\r\n" + 
 					"<Point>\r\n" + 
-					"<coordinates>"+p.getPoint().y()+", "+p.getPoint().x()+"</coordinates>\r\n" +
+					"<coordinates>"+p.getPath().getStartLocation().y()+","+p.getPath().getStartLocation().x()+","+p.getPath().getStartLocation().z()+"</coordinates>\r\n" +
 					"</Point>\r\n" + 
 					"</Placemark>");
 			pw.write(sbPacman.toString());
@@ -70,7 +70,7 @@ public class Path2KML {
 					"</TimeStamp>\r\n" + 
 					"<styleUrl>#fruit</styleUrl>\r\n" + 
 					"<Point>\r\n" + 
-					"<coordinates>"+f.getPoint().y()+", "+f.getPoint().x()+"</coordinates>\r\n" +
+					"<coordinates>"+f.getPoint().y()+", "+f.getPoint().x()+","+f.getPoint().z()+"</coordinates>\r\n" +
 					"</Point>\r\n" + 
 					"</Placemark>");
 			pw.write(sbFruit.toString());
@@ -80,24 +80,24 @@ public class Path2KML {
 			for(PathNode pNode: p.getPath()) {
 				StringBuilder sbFruit = new StringBuilder();
 				String time = pNode.GetTime().replaceFirst(" ", "T")+"Z";
-				sbFruitLocation.append(pNode.getFruit().getPoint().y()+", "+pNode.getFruit().getPoint().x()+"\n");
+				sbFruitLocation.append(pNode.getFruit().getPoint().y()+","+pNode.getFruit().getPoint().x()+"\n");
 				sbFruit.append("<Placemark>\r\n" + //prints the fruit.
 						"<description><![CDATA[id: <b>"+pNode.getFruitID()+"</b><br/>weight: <b>"+pNode.getFruit().getWeight()+"</b>]]></description><TimeStamp>"+
-						"<when>"+pNode.GetTime()+"</when>\r\n" + 
+						"<when>"+time+"</when>\r\n" + 
 						"</TimeStamp>\r\n" + 
 						"<styleUrl>#fruit</styleUrl>\r\n" + 
 						"<Point>\r\n" + 
-						"<coordinates>"+pNode.getFruit().getPoint().y()+", "+pNode.getFruit().getPoint().x()+"</coordinates>\r\n" +
+						"<coordinates>"+pNode.getFruit().getPoint().y()+","+pNode.getFruit().getPoint().x()+","+pNode.getFruit().getPoint().z()+"</coordinates>\r\n" +
 						"</Point>\r\n" + 
 						"</Placemark>");
 				sbFruit.append("<Placemark>"+//prints the "V" sign.
 						"<name>done</name>" +
 						"<description><![CDATA[id: <b>"+pNode.getFruitID()+"</b><br/>weight: <b>"+pNode.getFruit().getWeight()+"</b>]]></description><TimeStamp>\r\n" + 
-						"<when>"+pNode.GetTime()+"</when>\r\n" + 
+						"<when>"+time+"</when>\r\n" + 
 						"</TimeStamp>\r\n" + 
 						"<styleUrl>#done</styleUrl>\r\n" + 
 						"<Point>\r\n" + 
-						"<coordinates>"+pNode.getFruit().getPoint().y()+", "+pNode.getFruit().getPoint().x()+"</coordinates>\r\n" + 
+						"<coordinates>"+pNode.getFruit().getPoint().y()+","+pNode.getFruit().getPoint().x()+","+pNode.getFruit().getPoint().z()+"</coordinates>\r\n" + 
 						"</Point>\r\n" + 
 						"</Placemark>");
 				sbFruit.append("<Placemark>\r\n" +//prints the pacman.
@@ -106,7 +106,7 @@ public class Path2KML {
 						"</TimeStamp>\r\n" + 
 						"<styleUrl>#lion</styleUrl>\r\n" + 
 						"<Point>\r\n" + 
-						"<coordinates>"+pNode.getFruit().getPoint().y()+", "+pNode.getFruit().getPoint().x()+"</coordinates>\r\n" +
+						"<coordinates>"+pNode.getFruit().getPoint().y()+","+pNode.getFruit().getPoint().x()+","+pNode.getFruit().getPoint().z()+"</coordinates>\r\n" +
 						"</Point>\r\n" + 
 						"</Placemark>");
 				pw.write(sbFruit.toString());
