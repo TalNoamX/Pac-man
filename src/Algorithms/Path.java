@@ -5,17 +5,22 @@ import java.util.ArrayList;
 import Coords.MyCoords;
 import GameData.Fruit;
 import GameData.Pacman;
+import Geom.Point3D;
 
-public class Path extends ArrayList<PathNode> {
+public class Path extends ArrayList<PathNode> { 
 	private static final long serialVersionUID = 1L;
+	
 	MyCoords coords = new MyCoords();
+	Point3D startLocation;
 
 	public Path(Path p) { //copy constructor
+		startLocation=new Point3D(p.getStartLocation());
 		for(int i=0;i<p.size();i++)
 			this.add(p.get(i));
 	}
 
 	public Path(ArrayList<Fruit> fList,Pacman pman) { // constructor
+		startLocation = new Point3D(pman.getPoint());
 		ArrayList<Fruit> sortedFL = sortByTime(fList,pman); //calling sortByDist function
 		double runTime=0;
 		for(int i=0; i<sortedFL.size();i++) {
@@ -28,14 +33,14 @@ public class Path extends ArrayList<PathNode> {
 				this.add(new PathNode(sortedFL.get(i),pman.getID(),sortedFL.get(i).getID(),runTime));
 			}
 		}
-	} 
+	}
+	
 	/**
 	 * 
 	 * @param fList the original fruit list
 	 * @param pman the pacman we want to check path for him.
 	 * @return the same fruit list sorted by the shortest path the pacman need to run to eat them all.
 	 */
-
 	private ArrayList<Fruit> sortByTime(ArrayList<Fruit>fList,Pacman pman) {
 
 		ArrayList<Fruit> copyFList = new ArrayList<Fruit>(fList); //make a deep copy of the fruit list
@@ -78,6 +83,10 @@ public class Path extends ArrayList<PathNode> {
 		}
 
 		return sortedFL; //return the sorted list
+	}
+	
+	public Point3D getStartLocation() {
+		return startLocation;
 	}
 	
 }
