@@ -169,7 +169,6 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		pacman.addActionListener(new ActionListener() {	//Drawing pacmans.
 			public void actionPerformed(ActionEvent e) {
 				if(fruitButton) fruitButton = false;//In case we drew fruits before
-				if(pacmanButton) pacmanButton = false;//pressing twice on the button will cancel the drawing
 				pacmanButton=true;
 			}
 		});
@@ -177,7 +176,6 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 		fruit.addActionListener(new ActionListener() {	//Drawing fruits
 			public void actionPerformed(ActionEvent e) {
 				if (pacmanButton) pacmanButton = false;//in case we drew pacmans before
-				if(fruitButton) fruitButton = false; //pressing twice on the button will cancel the drawing
 				fruitButton=true;
 			}
 		});
@@ -282,10 +280,11 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 			while(itNode.hasNext()) {
 				PathNode node=itNode.next();
 				temp.addScore(node.getFruit().getWeight());
+				score.append("Pacman "+temp.getID()+" score"+" "+temp.getScore()+"\n");//appending the score of each pacmans
 			}
-			score.append("Pacman "+temp.getID()+" score"+" "+temp.getScore()+"\n");//appending the score of each pacmans
 		}
 		JOptionPane.showMessageDialog(null, score.toString());//showing the score on the screen.
+
 	}
 
 	//Unneeded functions:
