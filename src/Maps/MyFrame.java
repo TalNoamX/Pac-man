@@ -51,10 +51,11 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	int imgwidth;// The map image width
 
 	/**
-	 * constructor 
-	 * @param path The Images Path
-	 * @param top The
-	 * @param bottom
+	 * 
+	 * @param path - The image's path.
+	 * @param leftTop - left top corner of the map.
+	 * @param rightBottom - right bottom corner of the map.
+	 * @param rightTop - right top corner of the map.
 	 */
 	public MyFrame(String path, Point3D leftTop, Point3D rightBottom, Point3D rightTop) {
 		map = new Map(path, leftTop, rightBottom, rightTop);//Setting a new map
@@ -189,7 +190,8 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	}
 
 	/**
-	 * Drawing the maps image, and painting the pacman and the fruits.
+	 *  Drawing the maps image, and painting the pacman and the fruits.
+	 *  @param g Graphics object that will draw everything we need.
 	 */
 	public  void paint(Graphics g) {
 		g.drawImage(myImage, 8,53, this.getWidth()-16,this.getHeight()-61,this);//Drawing the map image

@@ -5,7 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import Coords.MyCoords;
 import Geom.Point3D;
-
+/**
+ * Test class to map's functions:
+ * coords2pixels
+ * pixels2coordsTest
+ * distBetPixelsTest
+ * AzimuthBetPixelsTest
+ * @author Oranit
+ *
+ */
 class mapJUnit {
 	Point3D leftTop = new Point3D(32.10566,35.20238);
 	Point3D rightBottom = new Point3D(32.10191,35.21237);
