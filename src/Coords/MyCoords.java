@@ -36,7 +36,7 @@ public class MyCoords implements coords_converter{
 	@Override
 	public double distance3d(Point3D gps0, Point3D gps1) {
 		Point3D vectorDis = new Point3D(this.vector3D(gps0, gps1));
-		return Math.sqrt(vectorDis.x()*vectorDis.x()+vectorDis.y()*vectorDis.y()+vectorDis.z()*vectorDis.z());
+		return Math.sqrt(vectorDis.x()*vectorDis.x()+vectorDis.y()*vectorDis.y());
 	}
 	
 	/**
@@ -82,8 +82,8 @@ public class MyCoords implements coords_converter{
 	 */
 	@Override
 	public boolean isValid_GPS_Point(Point3D p) {
-		if(-90>p.x()||p.x()>90) return false;
-		if(-180>p.y()||p.y()>190) return false;
+		if(-90>p.x() || p.x()>90) return false;
+		if(-180>p.y() || p.y()>190) return false;
 		if(-450>p.z()) return false;
 		return true;
 	}
