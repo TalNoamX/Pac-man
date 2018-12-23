@@ -8,31 +8,52 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import Geom.Point3D;
-
+/**
+ * This class is a data structure for the game.
+ * it keeps two ArrayLists, one for the fruits and one for the pacmans.
+ * @author Tal
+ *@author Oranit
+ *@author Amitai
+ */
 public class Game {
 
 	private ArrayList<Pacman> pList;
 	private ArrayList<Fruit> fList;
-	
+
+	/**
+	 * constructor
+	 */
+	public Game() {
+		pList = new ArrayList<Pacman>();
+		fList = new ArrayList<Fruit>();
+	}
+	/**
+	 * copy constructor
+	 */
 	public Game(Game game) {
 		pList=new ArrayList<Pacman>(game.pList());
 		fList=new ArrayList<Fruit>(game.fList());
 	}
-
-	public Game() {
-		pList = new ArrayList<Pacman>();
-		fList = new ArrayList<Fruit>();
-
-	}
+	/**
+	 * This function give the user the option to use the ArrayList methods
+	 * @return ArrayList<Pacman>
+	 */
 	public ArrayList<Pacman> pList() {
 		return pList;
 	}
+	/**
+	 * This function give the user the option to use the ArrayList methods
+	 * @return ArrayList<Fruit>
+	 */
 	public ArrayList<Fruit> fList() {
 		return fList;
 	}
-
-	public void csvToGame(String name) {
-		String csvFile = name;
+	/**
+	 * This method take a csv file, and read it's information into the Game ArrayLists
+	 * @param path , is the folder path to the file.
+	 */
+	public void csvToGame(String path) {
+		String csvFile = path;
 		String line = "";
 		String type="";
 		int row = 1;
@@ -56,9 +77,12 @@ public class Game {
 			e.printStackTrace();
 		}
 	}
-
-	public void GameToCsv(String name) { 
-		String fileName = name+".csv";
+	/**
+	 * This method take's a Game class, and read it's information into the a selected csv file.
+	 * @param path , is the folder path to the file.
+	 */
+	public void GameToCsv(String path) { 
+		String fileName = path+".csv";
 		PrintWriter pw = null;
 		try 
 		{
