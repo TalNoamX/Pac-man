@@ -12,21 +12,25 @@ Or load csv files with coordinates, types, and other data of the pacmans and the
 Our Packages and classes(for detailed information about the functions, please read the Java docs):
 
 Algorithms:
+
 Path.java 
 PathNode.java
 ShortestPathAlgo.java
 ShortestPathAlgoThread.java
 
 Coords:
+
 coords_converter.java
 coords_converter.java - A class that cont
 ains calculations between points: 
 distance, add, vector3D,azimuth_elevation_dist.
 
 File_Format:
+
 csv2kml.java 
 Path2KML.java - A class that converts the game results so it can be presented on googlEarth.
 GameData:
+
 Fruit.java - present a fruit with ID, weight, and coords.
 Pacman.java - presents a pacman with ID, coords, eating radius and speed.
 Game.java - contains an ArrayList of Fruit and another one for Pacman.
@@ -34,6 +38,7 @@ It can be build from a csv file with the function csvToGame, and you can insert 
 with the function GameToCsv.
 timeData.java
 Geom:
+
 Geom_element.java
 Point3D.java
 
