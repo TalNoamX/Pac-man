@@ -6,19 +6,32 @@ import Coords.MyCoords;
 import GameData.Fruit;
 import GameData.Pacman;
 import Geom.Point3D;
-
+/**
+ * This class represent the full path for very pacman with the specific fruit it eats and how long it would take.
+ * @author Tal
+ * @author Oranit
+ * @author Amitai
+ *
+ */
 public class Path extends ArrayList<PathNode> { 
 	private static final long serialVersionUID = 1L;
-	
-	MyCoords coords = new MyCoords();
-	Point3D startLocation;
 
+	MyCoords coords = new MyCoords(); // for calculating distance and more
+	Point3D startLocation; // save's the pacman first location in GPS point.
+	/**
+	 * Copy constructor
+	 * @param p The path we copy 
+	 */
 	public Path(Path p) { //copy constructor
 		startLocation=new Point3D(p.getStartLocation());
 		for(int i=0;i<p.size();i++)
 			this.add(p.get(i));
 	}
-
+	/**
+	 * Constructor that build full path before we cut it short with the algorithm
+	 * @param fList the fruit list
+	 * @param pman pacman
+	 */
 	public Path(ArrayList<Fruit> fList,Pacman pman) { // constructor
 		startLocation = new Point3D(pman.getPoint());
 		ArrayList<Fruit> sortedFL = sortByTime(fList,pman); //calling sortByDist function
@@ -34,9 +47,9 @@ public class Path extends ArrayList<PathNode> {
 			}
 		}
 	}
-	
+
 	/**
-	 * 
+	 * Copy the flist and sort it by the closer to the pacman and each other. 
 	 * @param fList the original fruit list
 	 * @param pman the pacman we want to check path for him.
 	 * @return the same fruit list sorted by the shortest path the pacman need to run to eat them all.
@@ -84,9 +97,9 @@ public class Path extends ArrayList<PathNode> {
 
 		return sortedFL; //return the sorted list
 	}
-	
+
 	public Point3D getStartLocation() {
 		return startLocation;
 	}
-	
+
 }
