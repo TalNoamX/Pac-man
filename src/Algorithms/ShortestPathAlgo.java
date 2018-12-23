@@ -28,6 +28,7 @@ public class ShortestPathAlgo {
 		this.pacmansPath(); // we want to split the run time of this algorithm so we call this function upon initialization.
 		this.MF=MF;
 	}
+
 	/**
 	 * This function activate the shortest path.
 	 *  it take every pacman to it's fruit "physically" by sending threads to the ShortestPathAlgoThread class.
@@ -38,9 +39,10 @@ public class ShortestPathAlgo {
 			Pacman pac=pacIter.next();
 			Thread T = new ShortestPathAlgoThread(pac, MF);
 			T.start(); // call the run function
-			}
-		MF.results();
 		}
+		MF.results();
+	}
+	
 	/**
 	 * this function takes the fastest path and compare it with each pacmans path, then delete the fruits that this pacman do not eat,
 	 *  delete is in his own path.
@@ -49,10 +51,10 @@ public class ShortestPathAlgo {
 		this.getTheShortestPath(); //call the TheShortestPath function
 		for(int i=0;i<game.pList().size();i++) { // loop that runs on the pacmans
 			int pacmanID=game.pList().get(i).getID(); //save pacman ID
-			
+
 			for(int k=0;k<shortestPath.size();k++) { // loop that runs on the The shortest path
 				int shortListPacID=shortestPath.get(k).getPacmanID(); //save fruit ID
-				
+
 				for(int j=0;j<game.pList().get(i).getPath().size();j++) { //loop that run on the pacman's path.
 					if(shortestPath.get(k).getFruitID() == game.pList().get(i).getPath().get(j).getFruitID()) { //check if the fruit ID on the ShortestPath is the same as the fruit ID on the pacman's path.
 						if(shortListPacID != pacmanID) { //check if the pacman ID on the ShortestPath is NOT the same as this pacman's ID
@@ -60,12 +62,13 @@ public class ShortestPathAlgo {
 						}
 					}
 				}
-				
+
 			}
-			
+
 		}
 
 	}
+	
 	/**
 	 * This function creates the Shortest Path this the path class.
 	 * @return the shortestPath is the best way to split the pacmans among the fruit.
