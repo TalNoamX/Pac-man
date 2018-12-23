@@ -19,7 +19,7 @@ public class ShortestPathAlgoThread extends Thread{
 			fullGamePath(pac, pac.getPath().get(Index).getFruit(),Index); //call the function
 			pac.getPath().get(Index).setTime();
 		}
-		MF.winner();
+		
 	}
 	public synchronized void fullGamePath (Pacman pac, Fruit fru,int Index) { //this function take the path of every pacman and move the pucman to every fruit on uts path.
 		double x,y,z; 

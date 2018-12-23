@@ -284,12 +284,19 @@ public class MyFrame extends JFrame implements MouseListener,ComponentListener {
 	}
 	public void winner() {
 		Iterator<Pacman> itP=game.pList().iterator();
-		Pacman pac=new Pacman(game.pList().get(0));
+		StringBuilder score = new StringBuilder();
 		while(itP.hasNext()) {
 			Pacman temp=itP.next();
-			JOptionPane.showMessageDialog(null, "Pacman "+pac.getID()+" with score of"+temp.getScore());
+			Iterator<PathNode> itnode=temp.getPath().iterator();
+			while(itnode.hasNext()) {
+				PathNode node=itnode.next();
+				temp.addScore(node.getFruit().getWeight());
+			}
+			
+			score.append("Pacman "+temp.getID()+" score"+" "+temp.getScore()+"\n");
+			
 		}
-		
+		JOptionPane.showMessageDialog(null, score.toString());
 	}
 
 	//Unneeded functions:
