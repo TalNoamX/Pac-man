@@ -1,4 +1,4 @@
-# PackmanGame
+# Pac-man Game
 Object Oriented course  - Ex3
 
 This project is a pacman game that runs on a map of part of the city Ariel.
